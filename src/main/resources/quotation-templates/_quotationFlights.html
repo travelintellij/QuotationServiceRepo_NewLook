@@ -1,0 +1,72 @@
+<div class="header" th:fragment="_quotationFlights" style="padding:0px;">
+    <p align="center">Flights</p>
+</div>
+
+<div th:fragment="_quotationFlights2" >
+    <table class="services" >
+    <tr style="page-break-inside: avoid">
+        <th >Flight</th>
+        <th>Departure</th>
+        <th>Arrival</th>
+        <th>Adults</th>
+        <th>Child</th>
+        <th>Infant</th>
+        <th>Stops</th>
+        <th>Travel Class</th>
+    </tr>
+    <th:block th:each="flightObj: ${quotationRecorderDTO.ManualQuotationsVoList}" >
+        <tr style="page-break-inside: avoid">
+        <td>[[${flightObj.airlineName}]] <br/>
+            <p style="font-size:6pt;color:#A9A9A9;">[[${flightObj.flightNumber}]]</p></td>
+        <td>[[${flightObj.originCity}]] <br/>
+            <p th:text="${#temporals.format(flightObj.departureDate, 'dd-MM-yyyy HH:mm')}"></p>
+        </td>
+        <td>[[${flightObj.destinationCity}]]<br/>
+            <p th:text="${#temporals.format(flightObj.arrivalDate, 'dd-MM-yyyy HH:mm')}"></p>
+        </td>
+        <td th:text="${flightObj.adultCount}"> </td>
+        <td th:text="${flightObj.childCount}"> </td>
+        <td th:text="${flightObj.infantCount}"> </td>
+        <td th:text="${flightObj.noOfStops}"> </td>
+        <td th:text="${flightObj.cabinClassName}"> </td>
+        </tr>
+        <span th:if="${manualConfigurationEntity.flightShowConnections } ">
+        <tr style="page-break-inside: avoid">
+             <td colspan="8">
+            <table style="width:80%;background-color:cream;" align="center">
+                <caption>Flight Stop Details</caption>
+                 <tr style="page-break-inside: avoid">
+                    <th style="width:20%;">Flight</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Adults</th>
+                    <th>Child</th>
+                    <th>Infant</th>
+                    <th>Travel Class</th>
+                </tr>
+                <th:block th:each="flightStopObj: ${flightObj.flightStopsQuotationsVoList}" >
+                    <tr style="page-break-inside: avoid">
+                    <td>[[${flightStopObj.airlineName}]] <br/>
+                        <p style="font-size:6pt;color:#A9A9A9;">[[${flightStopObj.flightNumber}]]</p></td>
+                    <td>[[${flightStopObj.originCity}]] <br/>
+                        <p th:text="${#temporals.format(flightStopObj.departureDate, 'dd-MM-yyyy HH:mm')}"></p>
+                    </td>
+                    <td>[[${flightStopObj.destinationCity}]]<br/>
+                        <p th:text="${#temporals.format(flightStopObj.arrivalDate, 'dd-MM-yyyy HH:mm')}"></p>
+                    </td>
+                    <td th:text="${flightStopObj.adultCount}"> </td>
+                    <td th:text="${flightStopObj.childCount}"> </td>
+                    <td th:text="${flightStopObj.infantCount}"> </td>
+                    <td th:text="${flightStopObj.cabinClassName}"> </td>
+                    </tr>
+                </th:block>
+            </table>
+            </td>
+            </tr>
+        </span>
+    </th:block>
+
+</table>
+</div>
+
+

@@ -2,11 +2,11 @@ package com.travelintellij.quotation.contoller;
 
 import com.travelintellij.quotation.entity.Customer;
 import com.travelintellij.quotation.entity.QuoteItem;
-import com.travelintellij.quotation.service.QuotationGenerateService;
+import com.travelintellij.quotation.entity.Udn_Configuration_Manual_Quotation_Entity;
 import com.travelintellij.quotation.service.impl.QuotationGenerateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class QuotationController {
 
     @Autowired
-    QuotationGenerateServiceImpl pdfGenerateService;
+    QuotationGenerateServiceImpl quotationGenerateService;
 
 
 
@@ -59,13 +59,16 @@ public class QuotationController {
 
         data.put("quoteItems", quoteItems);
 
-        pdfGenerateService.generatePdfFile("quotation", data, "quotation.pdf");
+        quotationGenerateService.generatePdfFile("quotation", data, "quotation.pdf");
 
         return "Munna Pdf Successfully Created !! ";
     }
 
     @RequestMapping("generateQuotation")
-    public String generateQuotation(){
+    public String generateQuotation(@RequestParam long quotationId,@RequestParam long manualConfigurationQuotationId){
+        quotationGenerateService.generationQuotation(quotationId, manualConfigurationQuotationId);
+        //Udn_Configuration_Manual_Quotation_Entity manualConfigQtnEntity = quotationGenerateService.find_Manual_Configuration_Quotation_By_Id(quotationId);
+
         return "Success";
     }
 

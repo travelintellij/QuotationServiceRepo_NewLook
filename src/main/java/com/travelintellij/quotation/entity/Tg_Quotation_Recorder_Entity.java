@@ -15,10 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
+import com.travelintellij.request.entity.Tg_Leads_Recorder_Entity;
 import com.travelintellij.quotation.dto.TgQuotationRecorderVO;
-import org.hibernate.annotations.Filter;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

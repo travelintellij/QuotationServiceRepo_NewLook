@@ -1,12 +1,10 @@
-package com.travelintellij.quotation.entity;
+package com.travelintellij.request.entity;
 
 import java.sql.Date;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,12 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import com.travelintellij.quotation.dto.TgLeadsRecorderVO;
-import org.hibernate.annotations.Where;
+
+import com.travelintellij.request.dto.TI_LeadsRecorderDTO;
+import com.travelintellij.quotation.entity.AuditModel;
+import com.travelintellij.quotation.entity.Tg_Quotation_Recorder_Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -175,7 +172,7 @@ public class Tg_Leads_Recorder_Entity extends AuditModel {
 
 	}
 	
-	public Tg_Leads_Recorder_Entity(TgLeadsRecorderVO leadsRecorderVo) {
+	public Tg_Leads_Recorder_Entity(TI_LeadsRecorderDTO leadsRecorderVo) {
 		this.leadId=leadsRecorderVo.getLeadId();
 
 		this.contactId=leadsRecorderVo.getContactId();

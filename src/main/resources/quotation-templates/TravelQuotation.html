@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+    * {box-sizing: border-box;}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .header {
+      overflow: hidden;
+      background-color: #f1f1f1;
+      padding: 10px 5px;
+    }
+    .header a {
+      float: center;
+      color: black;
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      line-height: 25px;
+      border-radius: 4px;
+    }
+    .header a.logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+    .header a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .header a.active {
+      background-color: dodgerblue;
+      color: white;
+    }
+    .header-right {
+      float: right;
+    }
+    .header-center {
+      float: center;
+    }
+    @media screen and (max-width: 500px) {
+      .header a {
+        float: none;
+        display: block;
+        text-align: left;
+      }
+      .header-right {
+        float: none;
+      }
+      .header-center {
+        float: center;
+      }
+    }
+    h1{
+        color: brown;
+        font-size:14pt;
+    }
+    .quotation {
+        width: 100%;
+    }
+    .quotation, .quotation th, .quotation td {
+        border: 1px solid brown;
+        border-collapse: collapse;
+        text-align:center;
+    }
+    .quotation th {
+        background-color: brown;
+        color: white;
+        font-size:8pt;
+    }
+    .quotation td {
+        font-size:8pt;
+        text-align:center;
+    }
+
+    .services {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size:8pt;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .services td, .services th {
+      border: 1px solid #ddd;
+      padding: 8px;
+      font-size:8pt;
+    }
+
+    .services tr:nth-child(even){background-color: #f2f2f2;}
+
+    .services tr:hover {background-color: #ddd;}
+
+    .services th {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      text-align: center;
+      background-color: gray;
+      color: white;
+    }
+
+</style>
+</head>
+
+<div th:insert="_quotationHeader :: _quotationHeader1">  </div>
+<div th:insert="_quotationHeader :: _quotationHeader2">  </div>
+<body>
+<table class="quotation">
+    <tr>
+        <th>Query Id</th><th style="width:7%;">Version</th><th>Client Name</th><th>From (+-More)</th><th>To (+-More)</th><th>Start Date</th><th>End Date</th><th>Adults</th><th>Children</th>
+    </tr>
+    <tr>
+        <td> Q-[[${leadRecorderDTO.leadId}]]-[[${b2bPartnersDTO.partnerShortName}]]</td>
+        <td>[[${quotationRecorderDTO.version}]]</td>
+        <td>[[${clientName}]]</td>
+        <td>[[${cityFromName}]]</td>
+        <td>[[${destinationName}]]</td>
+        <td>[[${#dates.format(leadRecorderDTO.travelStartDate, 'dd-MM-yyyy')}]]</td>
+        <td>[[${#dates.format(leadRecorderDTO.travelEndDate, 'dd-MM-yyyy')}]]</td>
+        <td>[[${leadRecorderDTO.adults}]]</td>
+        <td>[[${leadRecorderDTO.children}]] Age ([[${leadRecorderDTO.childrenAgeInfo}]] Yrs)</td>
+    </tr>
+    </table>
+    <br/>
+    <table class="quotation">
+    <tr>
+        <th style="width:15%;">Opted Services </th>
+        <td colspan="8">
+            <span th:if="${quotationRecorderDTO.flight}">
+                    | Flight |
+            </span>
+            <span th:if="${quotationRecorderDTO.hotel}">
+                     Hotel |
+            </span>
+            <span th:if="${quotationRecorderDTO.transfers}">
+                 Transfers |
+            </span>
+            <span th:if="${quotationRecorderDTO.sightseeing}">
+                 Sight Seeing |
+            </span>
+            <span th:if="${quotationRecorderDTO.visa}">
+                 Visa |
+            </span>
+            <span th:if="${quotationRecorderDTO.insurance}">
+                 Insurance |
+            </span>
+            <span th:if="${quotationRecorderDTO.cruise}">
+                 Cruise |
+            </span>
+            <span th:if="${quotationRecorderDTO.tourPackage}">
+                 Tour Package |
+            </span>
+            <span th:if="${quotationRecorderDTO.others}">
+                 Others |
+            </span>
+        </td>
+    </tr>
+    </table>
+
+<span th:if="${quotationRecorderDTO.flight}">
+    <br/><br/><br/>
+    <div th:insert="_quotationFlights :: _quotationFlights">  </div>
+    <br/>
+    <div th:insert="_quotationFlights :: _quotationFlights2">  </div>
+</span>
+
+
+</body>
+</html>

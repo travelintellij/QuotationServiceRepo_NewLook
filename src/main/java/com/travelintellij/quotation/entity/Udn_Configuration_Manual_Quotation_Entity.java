@@ -569,7 +569,62 @@ public class Udn_Configuration_Manual_Quotation_Entity extends AuditModel {
 	public void setShowBankAccounts(boolean showBankAccounts) {
 		this.showBankAccounts = showBankAccounts;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Udn_Configuration_Manual_Quotation_Entity{" +
+				"manualConfigurationQuotationId=" + manualConfigurationQuotationId +
+				", partnerId=" + partnerId +
+				", flightShowConnections=" + flightShowConnections +
+				", flightSeperateCostDisplay=" + flightSeperateCostDisplay +
+				", flightGstBreakup=" + flightGstBreakup +
+				", flightCancellationPolicyDisplay=" + flightCancellationPolicyDisplay +
+				", flightCancellationPolicy='" + flightCancellationPolicy + '\'' +
+				", hotelSeperateCostDisplay=" + hotelSeperateCostDisplay +
+				", hotelGstBreakup=" + hotelGstBreakup +
+				", hotelCancellationPolicyDisplay=" + hotelCancellationPolicyDisplay +
+				", hotelCancellationPolicy='" + hotelCancellationPolicy + '\'' +
+				", transfersSeperateCostDisplay=" + transfersSeperateCostDisplay +
+				", transfersGstBreakup=" + transfersGstBreakup +
+				", transfersCancellationPolicyDisplay=" + transfersCancellationPolicyDisplay +
+				", transfersCancellationPolicy='" + transfersCancellationPolicy + '\'' +
+				", sightSeeingSeperateCostDisplay=" + sightSeeingSeperateCostDisplay +
+				", sightSeeingGstBreakup=" + sightSeeingGstBreakup +
+				", sightSeeingCancellationPolicyDisplay=" + sightSeeingCancellationPolicyDisplay +
+				", sightSeeingCancellationPolicy='" + sightSeeingCancellationPolicy + '\'' +
+				", sightSeeingsIncludeMasterAppendix=" + sightSeeingsIncludeMasterAppendix +
+				", visaSeperateCostDisplay=" + visaSeperateCostDisplay +
+				", visaGstBreakup=" + visaGstBreakup +
+				", visaCancellationPolicyDisplay=" + visaCancellationPolicyDisplay +
+				", visaCancellationPolicy='" + visaCancellationPolicy + '\'' +
+				", visaAdditionalDetailsDisplay=" + visaAdditionalDetailsDisplay +
+				", visaAdditionalDetails='" + visaAdditionalDetails + '\'' +
+				", insuranceSeperateCostDisplay=" + insuranceSeperateCostDisplay +
+				", insuranceGstBreakup=" + insuranceGstBreakup +
+				", insuranceCancellationPolicyDisplay=" + insuranceCancellationPolicyDisplay +
+				", insuranceCancellationPolicy='" + insuranceCancellationPolicy + '\'' +
+				", cruiseSeperateCostDisplay=" + cruiseSeperateCostDisplay +
+				", cruiseGstBreakup=" + cruiseGstBreakup +
+				", cruiseCancellationPolicyDisplay=" + cruiseCancellationPolicyDisplay +
+				", cruiseCancellationPolicy='" + cruiseCancellationPolicy + '\'' +
+				", packageSeperateCostDisplay=" + packageSeperateCostDisplay +
+				", packageGstBreakup=" + packageGstBreakup +
+				", packageCancellationPolicyDisplay=" + packageCancellationPolicyDisplay +
+				", packageCancellationPolicy='" + packageCancellationPolicy + '\'' +
+				", otherSeperateCostDisplay=" + otherSeperateCostDisplay +
+				", otherGstBreakup=" + otherGstBreakup +
+				", otherCancellationPolicyDisplay=" + otherCancellationPolicyDisplay +
+				", otherCancellationPolicy='" + otherCancellationPolicy + '\'' +
+				", active=" + active +
+				", logoHeader=" + logoHeader +
+				", completeAddress=" + completeAddress +
+				", remarks='" + remarks + '\'' +
+				", totalQuotationAmount=" + totalQuotationAmount +
+				", leftOverAmtDisplay=" + leftOverAmtDisplay +
+				", showBankAccounts=" + showBankAccounts +
+				", quotationEntity=" + quotationEntity +
+				'}';
+	}
+
+
 }

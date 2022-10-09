@@ -1,9 +1,8 @@
-package com.travelintellij.quotation.dto;
+package com.travelintellij.request.dto;
 
+import com.travelintellij.request.entity.Tg_Leads_Recorder_Entity;
 
-import com.travelintellij.quotation.entity.Tg_Leads_Recorder_Entity;
-
-public class TgLeadsRecorderVO extends Tg_Leads_Recorder_Entity {
+public class TI_LeadsRecorderDTO extends Tg_Leads_Recorder_Entity {
 	/**
 	 * 
 	 */
@@ -18,7 +17,7 @@ public class TgLeadsRecorderVO extends Tg_Leads_Recorder_Entity {
 	private boolean notifyAgain=false;
 	private String leadOwnerName;
 	
- 	public TgLeadsRecorderVO() {
+ 	public TI_LeadsRecorderDTO() {
 
 	}
 	
@@ -61,7 +60,7 @@ public class TgLeadsRecorderVO extends Tg_Leads_Recorder_Entity {
 		this.setCreatedAt(tgLeadEntity.getCreatedAt());
 	}
  	
-	public TgLeadsRecorderVO(Tg_Leads_Recorder_Entity tgLeadEntity) {
+	public TI_LeadsRecorderDTO(Tg_Leads_Recorder_Entity tgLeadEntity) {
 		this.leadId=tgLeadEntity.getLeadId();
 		this.contactId=tgLeadEntity.getContactId();
 		this.leadSource=tgLeadEntity.getLeadSource();
