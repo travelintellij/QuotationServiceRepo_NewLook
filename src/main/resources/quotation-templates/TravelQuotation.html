@@ -63,6 +63,8 @@
     .quotation, .quotation th, .quotation td {
         border: 1px solid brown;
         border-collapse: collapse;
+        padding-top: 6px;
+        padding-bottom: 6px;
         text-align:center;
     }
     .quotation th {
@@ -86,6 +88,7 @@
       border: 1px solid #ddd;
       padding: 8px;
       font-size:8pt;
+      text-align:center;
     }
 
     .services tr:nth-child(even){background-color: #f2f2f2;}
@@ -159,12 +162,65 @@
     </table>
 
 <span th:if="${quotationRecorderDTO.flight}">
-    <br/><br/><br/>
+    <br/><br/>
     <div th:insert="_quotationFlights :: _quotationFlights">  </div>
     <br/>
     <div th:insert="_quotationFlights :: _quotationFlights2">  </div>
 </span>
 
+<span th:if="${quotationRecorderDTO.hotel}">
+    <br/><br/>
+    <div th:insert="_quotationHotels :: _quotationHotels">  </div>
+    <br/>
+    <div th:insert="_quotationHotels :: _quotationHotels2">  </div>
+</span>
+
+<span th:if="${quotationRecorderDTO.cruise}">
+    <br/><br/>
+    <div th:insert="_quotationCruise :: _quotationCruise">  </div>
+    <br/>
+    <div th:insert="_quotationCruise :: _quotationCruise2">  </div>
+</span>
+
+<span th:if="${quotationRecorderDTO.sightseeing}">
+    <br/><br/>
+    <div th:insert="_quotationSightSeeing :: _quotationSightSeeing">  </div>
+    <br/>
+    <div th:insert="_quotationSightSeeing :: _quotationSightSeeing2">  </div>
+</span>
+
+<span th:if="${quotationRecorderDTO.transfers}">
+    <br/><br/>
+    <div th:insert="_quotationTransfers :: _quotationTransfers">  </div>
+    <br/>
+    <div th:insert="_quotationTransfers :: _quotationTransfers2">  </div>
+</span>
+
+<span th:if="${quotationRecorderDTO.tourPackage}">
+    <br/><br/>
+    <div th:insert="_quotationTourPackages :: _quotationTourPackages">  </div>
+    <br/>
+    <div th:insert="_quotationTourPackages :: _quotationTourPackages2">  </div>
+</span>
+<span th:if="${quotationRecorderDTO.visa}">
+    <br/><br/>
+    <div th:insert="_quotationVisa :: _quotationVisa">  </div>
+    <br/>
+    <div th:insert="_quotationVisa :: _quotationVisa2">  </div>
+</span>
+<span th:if="${quotationRecorderDTO.insurance}">
+    <br/><br/>
+    <div th:insert="_quotationInsurance :: _quotationInsurance">  </div>
+    <br/>
+    <div th:insert="_quotationInsurance :: _quotationInsurance2">  </div>
+</span>
+
+<span th:if="${quotationRecorderDTO.others}">
+    <br/><br/>
+    <div th:insert="_quotationOthers :: _quotationOthers">  </div>
+    <br/>
+    <div th:insert="_quotationOthers :: _quotationOthers2">  </div>
+</span>
 
 </body>
 </html>

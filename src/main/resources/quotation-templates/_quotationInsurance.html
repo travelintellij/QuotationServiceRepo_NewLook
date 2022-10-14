@@ -1,0 +1,51 @@
+<div class="header" th:fragment="_quotationInsurance" style="padding:0px;">
+    <p align="center">Insurance Section</p>
+</div>
+
+<div th:fragment="_quotationInsurance2" >
+    <table class="services" style="page-break-inside: avoid">
+        <tr style="page-break-inside: avoid">
+            <th style="background-color:#1C7DD4;">Country</th>
+            <th style="background-color:#1C7DD4;">Insurance Name</th>
+            <th style="background-color:#1C7DD4;">Start Date</th>
+            <th style="background-color:#1C7DD4;">End Date</th>
+            <th style="background-color:#1C7DD4;">Provider</th>
+            <th style="background-color:#1C7DD4;">Coverage</th>
+            <th style="background-color:#1C7DD4;">Adults</th>
+            <th style="background-color:#1C7DD4;">Children</th>
+            <th style="background-color:#1C7DD4;">Infants</th>
+        </tr>
+
+        <th:block th:each="insuranceObj : ${InsuranceVOList}" >
+        <tr style="page-break-inside: avoid">
+            <td th:text="${insuranceObj.countryName}"> </td>
+            <td th:text="${insuranceObj.insuranceName}"> </td>
+            <td th:text="${#dates.format(insuranceObj.coverageStartDate, 'dd-MM-yyyy')}"> </td>
+            <td th:text="${#dates.format(insuranceObj.coverageEndDate, 'dd-MM-yyyy')}"> </td>
+            <td th:text="${insuranceObj.insuranceProviderName}"> </td>
+            <td th:text="${insuranceObj.coverageAmount} + ' ' + ${insuranceObj.coverageCurrency}"> </td>
+            <td th:text="${insuranceObj.adults}"> </td>
+            <td th:text="${insuranceObj.children}"> </td>
+            <td th:text="${insuranceObj.infant}"> </td>
+        </tr>
+        <tr th:if="${not #strings.isEmpty(insuranceObj.remarks)}" style="page-break-inside: avoid">
+            <td colspan="9">[[${insuranceObj.remarks}]]</td>
+        </tr>
+        </th:block>
+    </table>
+    <br/>
+    <span th:if="${manualConfigurationEntity.insuranceCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#1C7DD4;">Insurance Remarks</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td style="text-align:left;"><pre>[[${manualConfigurationEntity.insuranceCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+    <hr/>
+</div>
+
+

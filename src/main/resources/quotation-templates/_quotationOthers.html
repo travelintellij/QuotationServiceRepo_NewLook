@@ -1,0 +1,36 @@
+<div class="header" th:fragment="_quotationOthers" style="padding:0px;">
+    <p align="center">Others Services Section</p>
+</div>
+
+<div th:fragment="_quotationOthers2" >
+    <table class="services" style="page-break-inside: avoid">
+        <tr style="page-break-inside: avoid">
+            <th style="background-color:#566573;">Service Name</th>
+            <th style="background-color:#566573;">Service Details</th>
+            <th style="background-color:#566573;">Service Date</th>
+        </tr>
+
+        <th:block th:each="othersObj : ${OthersVOList}" >
+        <tr style="page-break-inside: avoid">
+            <td th:text="${othersObj.serviceName}"> </td>
+            <td th:text="${othersObj.serviceDetails}"> </td>
+            <td th:text="${#dates.format(othersObj.serviceDate, 'dd-MM-yyyy')}"> </td>
+        </tr>
+        </th:block>
+    </table>
+    <br/>
+    <span th:if="${manualConfigurationEntity.otherCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#566573;">Others Remarks</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td style="text-align:left;"><pre>[[${manualConfigurationEntity.otherCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+    <hr/>
+</div>
+
+

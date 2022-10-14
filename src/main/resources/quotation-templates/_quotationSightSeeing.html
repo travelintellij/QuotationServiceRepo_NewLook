@@ -1,0 +1,47 @@
+<div class="header" th:fragment="_quotationSightSeeing" style="padding:0px;">
+    <p align="center">Sight Seeing</p>
+</div>
+
+<div th:fragment="_quotationSightSeeing2" >
+    <table class="services" style="page-break-inside: avoid">
+        <tr style="page-break-inside: avoid">
+            <th style="background-color:#1C32D4;">City</th>
+            <th style="background-color:#1C32D4;">Sight Seeing Name</th>
+            <th style="background-color:#1C32D4;">Transfer Type</th>
+            <th style="background-color:#1C32D4;">Tentative Date</th>
+            <th style="background-color:#1C32D4;">Adults </th>
+            <th style="background-color:#1C32D4;">Children</th>
+            <th style="background-color:#1C32D4;">Infants</th>
+        </tr>
+
+        <th:block th:each="sightSeeingObj : ${SightSeeingVOList}" >
+        <tr style="page-break-inside: avoid">
+            <td th:text="${sightSeeingObj.cityName}"> </td>
+            <td th:text="${sightSeeingObj.sightSeeingName}"> </td>
+            <td th:text="${sightSeeingObj.transferTypeName}"> </td>
+            <td th:text="${#dates.format(sightSeeingObj.sightSeeingDate, 'dd-MM-yyyy')}"> </td>
+            <td th:text="${sightSeeingObj.adults}"> </td>
+            <td th:text="${sightSeeingObj.children}"> </td>
+            <td th:text="${sightSeeingObj.infant}"> </td>
+        </tr>
+        <tr th:if="${not #strings.isEmpty(sightSeeingObj.remarks)}" style="page-break-inside: avoid">
+            <td colspan="7">[[${sightSeeingObj.remarks}]]</td>
+        </tr>
+        </th:block>
+    </table>
+    <br/>
+    <span th:if="${manualConfigurationEntity.sightSeeingCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#1C32D4;">Sight Seeing Remarks</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td style="text-align:left;"><pre>[[${manualConfigurationEntity.sightSeeingCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+    <hr/>
+</div>
+
+

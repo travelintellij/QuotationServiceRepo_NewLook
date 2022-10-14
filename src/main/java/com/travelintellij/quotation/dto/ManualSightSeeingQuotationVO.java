@@ -58,7 +58,27 @@ public class ManualSightSeeingQuotationVO extends Udn_Manual_SightSeeing_Quotati
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "ManualSightSeeingQuotationVO{" +
+				"transferTypeName='" + transferTypeName + '\'' +
+				", cityName='" + cityName + '\'' +
+				", manualSightSeeingQuotationId=" + manualSightSeeingQuotationId +
+				", cityId=" + cityId +
+				", sightSeeingId=" + sightSeeingId +
+				", savedSightSeeing=" + savedSightSeeing +
+				", sightSeeingName='" + sightSeeingName + '\'' +
+				", sightSeeingDate=" + sightSeeingDate +
+				", adults=" + adults +
+				", children=" + children +
+				", infant=" + infant +
+				", transferType=" + transferType +
+				", sightSeeingCost=" + sightSeeingCost +
+				", sightSeeingMarkup=" + sightSeeingMarkup +
+				", remarks='" + remarks + '\'' +
+				", displayOrder=" + displayOrder +
+				", active=" + active +
+				'}';
+	}
 }

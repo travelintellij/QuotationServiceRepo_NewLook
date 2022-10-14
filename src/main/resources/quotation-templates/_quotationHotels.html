@@ -1,0 +1,56 @@
+<div class="header" th:fragment="_quotationHotels" style="padding:0px;">
+    <p align="center">Hotels</p>
+</div>
+
+<div th:fragment="_quotationHotels2" >
+    <th:block th:each="hotelOption,iterator: ${mapHotelOptionsList}" >
+        <table class="services" style="page-break-inside: avoid">
+            <span th:if="${#maps.size(mapHotelOptionsList)} > 0">
+                <caption> Hotel Option [[${iterator.index + 1 }]]</caption>
+            </span>
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#47C3FD;width:10%;">City</th>
+                <th style="background-color:#47C3FD;width:23%;">Hotel Name</th>
+                <th style="background-color:#47C3FD;width:13%;">Room Type</th>
+                <th style="background-color:#47C3FD;width:10%;">Check In</th>
+                <th style="background-color:#47C3FD;width:10%;">Check Out</th>
+                <th style="background-color:#47C3FD;width:10%;">Meal</th>
+                <th style="background-color:#47C3FD;width:10%;">Guests</th>
+                <th style="background-color:#47C3FD;width:7%;">E.Bed</th>
+                <th style="background-color:#47C3FD;width:7%;">Rooms</th>
+            </tr>
+
+            <th:block th:each="hotelObj : ${hotelOption.value}" >
+            <tr style="page-break-inside: avoid">
+                <td th:text="${hotelObj.cityName}"> </td>
+                <td th:text="${hotelObj.hotelName}"> </td>
+                <td th:text="${hotelObj.roomCategoryName}"> </td>
+                <td th:text="${hotelObj.formattedCheckInDate}"> </td>
+                <td th:text="${hotelObj.formattedCheckOutDate}"> </td>
+                <td th:text="${hotelObj.mealPlanName}"> </td>
+                <td th:text="${hotelObj.adults} + ' A | ' +  ${hotelObj.children} + ' C'"> </td>
+                <td th:text="${hotelObj.extrabed}"> </td>
+                <td th:text="${hotelObj.noOfRooms}"> </td>
+            </tr>
+            <tr th:if="${not #strings.isEmpty(hotelObj.remarks)}" style="page-break-inside: avoid">
+                <td colspan="9">[[${hotelObj.remarks}]]</td>
+            </tr>
+            </th:block>
+        </table>
+        <br/>
+    </th:block>
+    <span th:if="${manualConfigurationEntity.hotelCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#47C3FD;">Hotel Remarks</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td style="text-align:left;"><pre>[[${manualConfigurationEntity.hotelCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+    <hr/>
+</div>
+
+

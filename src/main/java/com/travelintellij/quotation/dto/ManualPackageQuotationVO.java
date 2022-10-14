@@ -31,6 +31,7 @@ public class ManualPackageQuotationVO extends Udn_Manual_Package_Quotation_Entit
 		this.cityId = manualPkgEntity.getCityId();
 		this.flightIncluded=manualPkgEntity.isFlightIncluded();
 		this.active = manualPkgEntity.isActive();
+		this.cancellationPolicy = manualPkgEntity.getCancellationPolicy();
 	}
 
 	@Override
@@ -51,8 +52,29 @@ public class ManualPackageQuotationVO extends Udn_Manual_Package_Quotation_Entit
 		this.cityName = cityName;
 	}
 
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "ManualPackageQuotationVO{" +
+				"cityName='" + cityName + '\'' +
+				", manualPkgQuotationId=" + manualPkgQuotationId +
+				", cityId=" + cityId +
+				", adults=" + adults +
+				", children=" + children +
+				", infant=" + infant +
+				", pkgCost=" + pkgCost +
+				", pkgMarkup=" + pkgMarkup +
+				", packageName='" + packageName + '\'' +
+				", packageDescription='" + packageDescription + '\'' +
+				", cancellationPolicy='" + cancellationPolicy + '\'' +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", displayOrder=" + displayOrder +
+				", active=" + active +
+				", flightIncluded=" + flightIncluded +
+				", inclusions='" + inclusions + '\'' +
+				", exclusions='" + exclusions + '\'' +
+				", remarks='" + remarks + '\'' +
+				'}';
+	}
 }

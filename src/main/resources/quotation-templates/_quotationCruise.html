@@ -1,0 +1,51 @@
+<div class="header" th:fragment="_quotationCruise" style="padding:0px;">
+    <p align="center">Cruise</p>
+</div>
+
+<div th:fragment="_quotationCruise2" >
+    <table class="services" style="page-break-inside: avoid">
+        <tr style="page-break-inside: avoid">
+            <th style="background-color:#4d79ff;">City</th>
+            <th style="background-color:#4d79ff;">Cruise Name</th>
+            <th style="background-color:#4d79ff;">State Room Type</th>
+            <th style="background-color:#4d79ff;">Start Date</th>
+            <th style="background-color:#4d79ff;">End Date </th>
+            <th style="background-color:#4d79ff;">Adults</th>
+            <th style="background-color:#4d79ff;">Children</th>
+            <th style="background-color:#4d79ff;">Children Age</th>
+            <th style="background-color:#4d79ff;">Decks</th>
+        </tr>
+
+        <th:block th:each="cruiseObj : ${CruiseVOList}" >
+        <tr style="page-break-inside: avoid">
+            <td th:text="${cruiseObj.cityName}"> </td>
+            <td th:text="${cruiseObj.cruiseName}"> </td>
+            <td th:text="${cruiseObj.stateRoomName}"> </td>
+            <td th:text="${#dates.format(cruiseObj.sailingStartDate, 'dd-MM-yyyy')}"> </td>
+            <td th:text="${#dates.format(cruiseObj.sailingEndDate, 'dd-MM-yyyy')}"> </td>
+            <td th:text="${cruiseObj.adults}"> </td>
+            <td th:text="${cruiseObj.children}"> </td>
+            <td th:text="${cruiseObj.childrenAgeInfo}"> </td>
+            <td th:text="${cruiseObj.noOfDecks}"> </td>
+        </tr>
+        <tr th:if="${not #strings.isEmpty(cruiseObj.remarks)}" style="page-break-inside: avoid">
+            <td colspan="9">[[${cruiseObj.remarks}]]</td>
+        </tr>
+        </th:block>
+    </table>
+    <br/>
+    <span th:if="${manualConfigurationEntity.cruiseCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#4d79ff;">Cruise Remarks</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td style="text-align:left;"><pre>[[${manualConfigurationEntity.cruiseCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+    <hr/>
+</div>
+
+

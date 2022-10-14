@@ -71,7 +71,28 @@ public class ManualCruiseQuotationVO extends Udn_Manual_Cruise_Quotation_Entity 
 		this.cruiseProviderName = cruiseProviderName;
 	}
 
-
-	
-	
+	@Override
+	public String toString() {
+		return "ManualCruiseQuotationVO{" +
+				"cityName='" + cityName + '\'' +
+				", stateRoomName='" + stateRoomName + '\'' +
+				", cruiseProviderName='" + cruiseProviderName + '\'' +
+				", manualCruiseQuotationId=" + manualCruiseQuotationId +
+				", stateRoomType=" + stateRoomType +
+				", cruiseProvider=" + cruiseProvider +
+				", cruiseName='" + cruiseName + '\'' +
+				", cityId=" + cityId +
+				", sailingStartDate=" + sailingStartDate +
+				", sailingEndDate=" + sailingEndDate +
+				", adults=" + adults +
+				", children=" + children +
+				", childrenAgeInfo='" + childrenAgeInfo + '\'' +
+				", noOfDecks=" + noOfDecks +
+				", remarks='" + remarks + '\'' +
+				", cruiseStayCost=" + cruiseStayCost +
+				", cruiseStayMarkup=" + cruiseStayMarkup +
+				", displayOrder=" + displayOrder +
+				", active=" + active +
+				'}';
+	}
 }

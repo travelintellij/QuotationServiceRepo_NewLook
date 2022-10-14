@@ -65,8 +65,20 @@
             </tr>
         </span>
     </th:block>
-
 </table>
+<br/>
+    <span th:if="${manualConfigurationEntity.flightCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th>Flight Remarks</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td><pre>[[${manualConfigurationEntity.flightCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+<hr/>
 </div>
 
 

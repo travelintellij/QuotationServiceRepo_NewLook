@@ -208,6 +208,7 @@ public interface TIConstants {
 		add("Accommodation");
 		add("Port");
 		add("Station");
+		add("Other");
 	}};
 	
 	public static Map<Integer, String> TRANSFER_POINT_MAP= new HashMap<Integer,String>() {{
@@ -215,6 +216,7 @@ public interface TIConstants {
 		put(2,"Accommodation");
 		put(3,"Port");
 		put(4,"Station");
+		put(5,"Other");
 	}};
 
 	public static Map<Integer, String> TRANSFER_TYPE_MODE= new HashMap<Integer,String>() {{

@@ -1,7 +1,8 @@
 package com.travelintellij.quotation.entity;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,8 +42,8 @@ public class Udn_Manual_Hotel_Quotation_Entity extends AuditModel {
 	protected int hotelId;
 	protected int roomCategoryId;
 	protected int cityId;
-	protected Date checkInDate;
-	protected Date checkOutDate;
+	public Date checkInDate;
+	public Date checkOutDate;
 	protected int adults;
 	protected int children;
 	protected int extrabed;

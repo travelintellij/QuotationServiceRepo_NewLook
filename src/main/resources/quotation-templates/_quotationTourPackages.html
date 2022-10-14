@@ -1,0 +1,81 @@
+<div class="header" th:fragment="_quotationTourPackages" style="padding:0px;">
+    <p align="center">Tour Packages Section</p>
+</div>
+
+<div th:fragment="_quotationTourPackages2" >
+        <th:block th:each="tourPackagesObj,iterator : ${TourPackagesVOList}" >
+       <table class="services">
+        <span th:if="${#lists.size(TourPackagesVOList)} > 1">
+            <tr><td colspan="8">Package [[${iterator.index + 1 }]]</td></tr>
+        </span>
+        <tr style="page-break-inside: avoid">
+            <th style="background-color:#45B39D;">City</th>
+            <th style="background-color:#45B39D;width:15%;">Package Name</th>
+            <th style="background-color:#45B39D;width:10%;">Start Date</th>
+            <th style="background-color:#45B39D;width:10%;">End Date</th>
+            <th style="background-color:#45B39D;">Adult</th>
+            <th style="background-color:#45B39D;">Children</th>
+            <th style="background-color:#45B39D;">Infant</th>
+            <th style="background-color:#45B39D;width:10%;">Flights Included</th>
+        </tr>
+
+        <tr style="page-break-inside: avoid">
+            <td th:text="${tourPackagesObj.cityName}"> </td>
+            <td th:text="${tourPackagesObj.packageName}"> </td>
+            <td th:text="${#dates.format(tourPackagesObj.startDate, 'dd-MM-yyyy')}"> </td>
+            <td th:text="${#dates.format(tourPackagesObj.endDate, 'dd-MM-yyyy')}"> </td>
+            <td th:text="${tourPackagesObj.adults}"> </td>
+            <td th:text="${tourPackagesObj.children}"> </td>
+            <td th:text="${tourPackagesObj.infant}"> </td>
+            <td th:text="${tourPackagesObj.flightIncluded}"> </td>
+        </tr>
+        <tr>
+            <th style="background-color:#45B39D;text-align:center;page-break-inside: avoid;" colspan="8">Package Description</th>
+        </tr>
+        <tr style="page-break-inside: avoid;">
+            <td style="text-align:left;" colspan="8" ><pre>[[${tourPackagesObj.packageDescription}]]</pre></td>
+        </tr>
+        <tr>
+            <th style="background-color:#27AE60;text-align:center;page-break-inside: avoid;" colspan="8">Inclusions</th>
+        </tr>
+        <tr style="page-break-inside: avoid;">
+            <td style="text-align:left;width:50%;" colspan="8" ><pre>[[${tourPackagesObj.inclusions}]]</pre></td>
+        </tr>
+        <tr>
+            <th style="background-color:#CD5C5C;text-align:center;page-break-inside: avoid;" colspan="8">Exclusions</th>
+        </tr>
+        <tr style="page-break-inside: avoid;">
+            <td style="text-align:left;width:50%;" colspan="8" ><pre>[[${tourPackagesObj.exclusions}]]</pre></td>
+        </tr>
+        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
+            <th style="background-color:#CD5C5C;text-align:center;page-break-inside: avoid;" colspan="8">Land Package Cancellation Policy</th>
+        </tr>
+        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
+            <td colspan="8" style="text-align:left;"><pre>[[${tourPackagesObj.cancellationPolicy}]]</pre></td>
+        </tr>
+
+        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
+            <th style="background-color:#45B39D;text-align:center;page-break-inside: avoid;" colspan="8">Remarks</th>
+        </tr>
+        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
+            <td colspan="8" style="text-align:left;"><pre>[[${tourPackagesObj.remarks}]]</pre></td>
+        </tr>
+       </table>
+        </th:block>
+
+    <br/>
+    <span th:if="${manualConfigurationEntity.packageCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#45B39D;">Other Important Information</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td style="text-align:left;"><pre>[[${manualConfigurationEntity.packageCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+    <hr/>
+</div>
+
+

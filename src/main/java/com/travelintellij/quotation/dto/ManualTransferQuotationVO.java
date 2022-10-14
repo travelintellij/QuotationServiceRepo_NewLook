@@ -103,6 +103,33 @@ public class ManualTransferQuotationVO extends Udn_Manual_Transfer_Quotation_Ent
 	public void setTransferTypeName(String transferTypeName) {
 		this.transferTypeName = transferTypeName;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ManualTransferQuotationVO{" +
+				"pickUpCityName='" + pickUpCityName + '\'' +
+				", dropToCityName='" + dropToCityName + '\'' +
+				", pickUpFromDesc='" + pickUpFromDesc + '\'' +
+				", dropToDesc='" + dropToDesc + '\'' +
+				", transferTypeName='" + transferTypeName + '\'' +
+				", formatter=" + formatter +
+				", manualTransferQuotationId=" + manualTransferQuotationId +
+				", pickUpCityId=" + pickUpCityId +
+				", pickUpFrom=" + pickUpFrom +
+				", pickUpFromName='" + pickUpFromName + '\'' +
+				", dropToCityId=" + dropToCityId +
+				", dropTo=" + dropTo +
+				", dropToName='" + dropToName + '\'' +
+				", transferDate=" + transferDate +
+				", adults=" + adults +
+				", children=" + children +
+				", infant=" + infant +
+				", transferType=" + transferType +
+				", transferCost=" + transferCost +
+				", transferMarkup=" + transferMarkup +
+				", remarks='" + remarks + '\'' +
+				", displayOrder=" + displayOrder +
+				", active=" + active +
+				'}';
+	}
 }
