@@ -1,0 +1,42 @@
+<div class="header" th:fragment="_quotationCosting" style="padding:0px;">
+    <hr/>
+    <p align="center">Costing Section</p>
+    <hr/>
+</div>
+
+<div th:fragment="_quotationCosting2" >
+    <table class="services" style="page-break-inside: avoid">
+        <tr style="page-break-inside: avoid">
+            <th style="background-color:#921A0E;">Visa Country</th>
+            <th style="background-color:#921A0E;">Consulate</th>
+        </tr>
+
+        <th:block th:each="visaObj : ${VisaVOList}" >
+        <tr style="page-break-inside: avoid">
+            <td th:text="${visaObj.visaCountry}"> </td>
+            <td th:text="${visaObj.visaConsulate}"> </td>
+            <td th:text="${visaObj.adults}"> </td>
+            <td th:text="${visaObj.children}"> </td>
+            <td th:text="${visaObj.infant}"> </td>
+        </tr>
+        <tr th:if="${not #strings.isEmpty(visaObj.remarks)}" style="page-break-inside: avoid">
+            <td colspan="9">[[${visaObj.remarks}]]</td>
+        </tr>
+        </th:block>
+    </table>
+    <br/>
+    <span th:if="${manualConfigurationEntity.visaCancellationPolicyDisplay } ">
+        <table class="services" style="page-break-inside: avoid">
+            <tr style="page-break-inside: avoid">
+                <th style="background-color:#921A0E;">Visa Remarks</th>
+            </tr>
+            <tr style="page-break-inside: avoid">
+                <td style="text-align:left;"><pre>[[${manualConfigurationEntity.visaCancellationPolicy}]]</pre></td>
+            </tr>
+        </table>
+
+    </span>
+    <hr/>
+</div>
+
+
