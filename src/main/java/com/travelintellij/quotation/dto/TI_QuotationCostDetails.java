@@ -3,6 +3,7 @@ package com.travelintellij.quotation.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -10,7 +11,8 @@ import java.util.Map;
 public class TI_QuotationCostDetails {
     private int flightTotalCost;
     private int flightTotalMarkup;
-    private Map<Integer, Integer> hotelOptionsWithCostAndMarkup;
+    private Map<Integer, Integer> hotelOptionsWithCostAndMarkup ;
+    private Map<Integer, Integer> hotelOptionsWithMarkup ;
     private int sightSeeingTotalCost;
     private int sightSeeingTotalMarkup;
     private int tourPackageTotalCost;
@@ -25,6 +27,7 @@ public class TI_QuotationCostDetails {
     private int transfersTotalMarkup;
     private int insuranceTotalCost;
     private int insuranceTotalMarkup;
+    private int grandTotalWithoutHotel;
 
     @Override
     public String toString() {
@@ -46,6 +49,7 @@ public class TI_QuotationCostDetails {
                 ", transfersTotalMarkup=" + transfersTotalMarkup +
                 ", insuranceTotalCost=" + insuranceTotalCost +
                 ", insuranceTotalMarkup=" + insuranceTotalMarkup +
+                ", grandTotalWithoutHotel=" + grandTotalWithoutHotel +
                 '}';
     }
 }

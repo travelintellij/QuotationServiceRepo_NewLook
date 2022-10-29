@@ -1,5 +1,7 @@
 package com.travelintellij.quotation.service.impl;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 import com.lowagie.text.DocumentException;
 import com.travelintellij.quotation.dto.*;
 import com.travelintellij.quotation.entity.*;
@@ -11,6 +13,14 @@ import com.travelintellij.request.dto.ClientRecorderDTO;
 import com.travelintellij.request.dto.TI_AirlineDTO;
 import com.travelintellij.request.dto.TI_AirportDTO;
 import com.travelintellij.request.dto.TI_CityRecorderDTO;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.blend.BlendMode;
+import org.apache.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState;
+import org.apache.pdfbox.util.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +32,13 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 
 @Service
 public class QuotationGenerateServiceImpl  {
@@ -38,7 +51,7 @@ public class QuotationGenerateServiceImpl  {
     private RestTemplate restTemplate;
 
     @Value("${pdf.directory}")
-    private String pdfDirectory;
+    private String quotationRootDirectory;
 
     @Autowired
     private Udn_Configuration_Manual_Quotation_Repository manualConfQuotRepository;
@@ -46,27 +59,108 @@ public class QuotationGenerateServiceImpl  {
     @Autowired
     TI_Quotations_Repository quotationRepository;
 
+    @Value("${B2B_PARTNER_SERVICE}")
+    private String B2B_PARTNER_SERVICE;
 
-    public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName) {
+    @Value("${HOTEL_OPTION_WISE_SERVICE}")
+    private String HOTEL_OPTION_WISE_SERVICE;
+
+    @Value("${CITY_BY_ID_SERVICE}")
+    private String CITY_BY_ID_SERVICE;
+
+    @Value("${COUNTRY_BY_CODE_SERVICE}")
+    private String COUNTRY_BY_CODE_SERVICE;
+
+    @Value("${AIRLINE_BY_ID_SERVICE}")
+    private String AIRLINE_BY_ID_SERVICE;
+
+    @Value("${AIRPORT_BY_ID_SERVICE}")
+    private String AIRPORT_BY_ID_SERVICE;
+
+    @Value("${CLIENT_BY_ID_SERVICE}")
+    private String CLIENT_BY_ID_SERVICE;
+
+
+    public boolean generatePdfFile(String templateName, Map<String, Object> data,String quotationFilePath, String pdfFileName,String waterMarkBrandName) {
         Context context = new Context();
         context.setVariables(data);
-
-        System.out.println("Processing template engine for template name : " + templateName);
         String htmlContent = templateEngine.process(templateName, context);
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName);
+
+            System.out.println("Quotation File PAth is " + quotationFilePath);
+            System.out.println("Quotation File Nameh is " + pdfFileName);
+
+            Path path = Paths.get(quotationFilePath);
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            }
+
+            FileOutputStream fileOutputStream = new FileOutputStream(quotationFilePath + File.separator + pdfFileName);
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
             renderer.layout();
             renderer.createPDF(fileOutputStream, false);
             renderer.finishPDF();
+            addWatermark(new File(quotationFilePath + File.separator + pdfFileName),waterMarkBrandName);
             fileOutputStream.close();
+            return true;
+
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage(), e);
+            return false;
         } catch (DocumentException e) {
             logger.error(e.getMessage(), e);
+            return false;
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
+            return false;
+        } catch (com.itextpdf.text.DocumentException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addWatermark(File file,String waterMarkBrandName) throws IOException, com.itextpdf.text.DocumentException {
+        try (PDDocument doc = PDDocument.load(file)) {
+            // Loop through each page to add text water mark on each page
+            for (final PDPage page : doc.getPages()) {
+                final PDFont font = PDType1Font.TIMES_ITALIC;
+                addWatermarkText(doc, page, font, waterMarkBrandName);
+            }
+            doc.save(file);
+        }
+    }
+
+    private static void addWatermarkText(final PDDocument doc, final PDPage page, final PDFont font, final String text)
+            throws IOException {
+        try (PDPageContentStream cs = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true,
+                true)) {
+            final float fontHeight = 70; // arbitrary for short text
+            final float width = page.getMediaBox().getWidth();
+            final float height = page.getMediaBox().getHeight();
+            final float stringWidth = font.getStringWidth(text) / 1000 * fontHeight;
+            final float diagonalLength = (float) Math.sqrt(width * width + height * height);
+            final float angle = (float) Math.atan2(height, width);
+            final float x = (diagonalLength - stringWidth) / 2; // "horizontal" position in rotated world
+            final float y = -fontHeight / 4; // 4 is a trial-and-error thing, this lowers the text a bit
+            cs.transform(Matrix.getRotateInstance(angle, 0, 0));
+            cs.setFont(font, fontHeight);
+            // cs.setRenderingMode(RenderingMode.STROKE) // for "hollow" effect
+
+            final PDExtendedGraphicsState gs = new PDExtendedGraphicsState();
+            gs.setNonStrokingAlphaConstant(0.2f);
+            gs.setStrokingAlphaConstant(0.2f);
+            gs.setBlendMode(BlendMode.MULTIPLY);
+            gs.setLineWidth(2f);
+            cs.setGraphicsStateParameters(gs);
+
+            // Set color
+            cs.setNonStrokingColor(Color.LIGHT_GRAY);
+            cs.setStrokingColor(Color.LIGHT_GRAY);
+
+            cs.beginText();
+            cs.newLineAtOffset(x, y);
+            cs.showText(text);
+            cs.endText();
         }
     }
 
@@ -74,21 +168,24 @@ public class QuotationGenerateServiceImpl  {
         return manualConfQuotRepository.findById(manualConfigQtnId).get();
     }
 
-
-
-    public void generationQuotation(long manualConfigQtnId,long manualConfigurationQuotationId){
+    public boolean generationQuotation(long manualConfigQtnId,long manualConfigurationQuotationId){
         Map<String, Object> quotationInputDataMap = new HashMap<>();
         Udn_Configuration_Manual_Quotation_Entity manualConfigurationEntity;
-        Tg_Quotation_Recorder_Entity quotuationEntity ;
+        Tg_Quotation_Recorder_Entity quotationEntity = findQuotationRecordById(manualConfigQtnId);
         if(manualConfigurationQuotationId==0){
             ConfigurationQuotationVO configurationQuotationVO = new ConfigurationQuotationVO();
             manualConfigurationEntity = new Udn_Configuration_Manual_Quotation_Entity(configurationQuotationVO);
-            quotuationEntity = findQuotationRecordById(manualConfigQtnId);
-            manualConfigurationEntity.setQuotationEntity(quotuationEntity);
+            manualConfigurationEntity.setQuotationEntity(quotationEntity);
         }else {
             manualConfigurationEntity = find_Manual_Configuration_Quotation_By_Id(manualConfigurationQuotationId);
         }
         TI_QuotationCostDetails costingDetails = new TI_QuotationCostDetails();
+        TI_B2bPartnersDTO b2bPartnersDTO = restTemplate.getForObject(B2B_PARTNER_SERVICE, TI_B2bPartnersDTO.class, String.valueOf(manualConfigurationEntity.getPartnerId()));
+        quotationInputDataMap.put("b2bPartnersDTO",b2bPartnersDTO);
+        String logoFileName=b2bPartnersDTO.getPartnerShortName()+".jpg";
+        quotationInputDataMap.put("LOGO_FILE_NAME",logoFileName);
+
+        //System.out.println("Logo File Path is " + LOGO_BASE_PATH+b2bPartnersDTO.getPartnerShortName()+".jpg");
         prepareFlightQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareHotelQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareTransfersQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
@@ -99,85 +196,50 @@ public class QuotationGenerateServiceImpl  {
         prepareInsuranceQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareOthersQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         //prepareCostingForQuotationDetails(manualConfigurationEntity,quotationInputDataMap);
-        generatePdfFile("TravelQuotation", quotationInputDataMap, "travel-quotation.pdf");
+        quotationInputDataMap.put("COSTING_OBJ", costingDetails);
+        String quotationFileName = "Q-"+ quotationEntity.getLeadEntity().getLeadId() + "-" + quotationEntity.getQuotationId() + "-" +  quotationEntity.getVersion() + ".pdf";
+        String quotationFilePath = quotationRootDirectory + File.separator + "L" + quotationEntity.getLeadEntity().getLeadId() + File.separator + "Q" + quotationEntity.getQuotationId() + File.separator +  "V" + quotationEntity.getVersion();
 
-        System.out.println("Final Map is " + costingDetails);
+        boolean isSuccess = generatePdfFile("TravelQuotation", quotationInputDataMap, quotationFilePath, quotationFileName,b2bPartnersDTO.getPartnerBrandName());
         //TI_LeadsRecorderDTO leadsRecorderDTODTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getLeadRecordById?leadId={leadId}", TI_LeadsRecorderDTO.class, params);
+        return isSuccess;
     }
 
     private void prepareHotelQuotationDetails(Udn_Configuration_Manual_Quotation_Entity manualConfigurationEntity, Map<String, Object> quotationInputDataMap, TI_QuotationCostDetails costingDetails) {
         Tg_Quotation_Recorder_Entity  quotationEntity = manualConfigurationEntity.getQuotationEntity();
         TgQuotationRecorderVO quotationRecorderVO = new TgQuotationRecorderVO();
         quotationRecorderVO.setVoFromEntity(quotationEntity);
+        Map hotelPriceOptionWise = new HashMap();
+        Map hotelMarkupOptionWise = new HashMap();
         if(quotationRecorderVO.isHotel()){
             //Map<Integer,List<ManualHotelQuotationVO>> mapHotelOptionsList = restTemplate.getForObject("http://localhost:8080/udanchoo/getOptionWiseHotelMap?quotationId={quotationId}", Map.class, quotationEntity.getQuotationId());
-            Map mapTempHotelOptionsList = restTemplate.getForObject("http://localhost:8080/udanchoo/getOptionWiseHotelMap?quotationId={quotationId}", Map.class, quotationEntity.getQuotationId());
+            Map mapTempHotelOptionsList = restTemplate.getForObject(HOTEL_OPTION_WISE_SERVICE, Map.class, quotationEntity.getQuotationId());
             quotationInputDataMap.put("mapHotelOptionsList",mapTempHotelOptionsList);
-
-            Map hotelPriceOptionWise = new HashMap();
             for (Object strkey : mapTempHotelOptionsList.keySet()) {
                 List linkedHashMap = (List) mapTempHotelOptionsList.get(strkey);
-                int hotelTotalCostAndMarkup=0;
+                int hotelTotalCostAndMarkup=0;int hotelMarkup=0;
                 for(int i=0;i<linkedHashMap.size();i++) {
                     Integer stayCost = (Integer) ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayCost");
                     Integer stayMarkup = (Integer) ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayMarkup");
                     hotelTotalCostAndMarkup = hotelTotalCostAndMarkup + stayCost.intValue() + stayMarkup.intValue();
-                    System.out.println("Stay : " + stayCost + "---" + stayMarkup);
+                    hotelMarkup = hotelMarkup + stayMarkup;
                     //System.out.println("Cost is " + ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayCost"));
                     //System.out.println("Markup is " + ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayMarkup"));
                 }
-                hotelPriceOptionWise.put((Integer.parseInt(strkey.toString())+1),hotelTotalCostAndMarkup);
+                hotelPriceOptionWise.put((Integer.parseInt(strkey.toString())),hotelTotalCostAndMarkup);
+                hotelMarkupOptionWise.put((Integer.parseInt(strkey.toString())),hotelMarkup);
             }
-            costingDetails.setHotelOptionsWithCostAndMarkup(hotelPriceOptionWise);
         }
+        if(hotelPriceOptionWise.size()==0) {
+            hotelPriceOptionWise.put(0, 0);
+        }
+        if(hotelMarkupOptionWise.size()==0) {
+            hotelMarkupOptionWise.put(0, 0);
+        }
+        costingDetails.setHotelOptionsWithCostAndMarkup(hotelPriceOptionWise);
+        costingDetails.setHotelOptionsWithMarkup(hotelMarkupOptionWise);
     }
 
-    private void prepareCostingForQuotationDetails(Udn_Configuration_Manual_Quotation_Entity manualConfigurationEntity, Map<String, Object> quotationInputDataMap) {
-        Tg_Quotation_Recorder_Entity  quotationEntity = manualConfigurationEntity.getQuotationEntity();
-        TgQuotationRecorderVO quotationRecorderVO = new TgQuotationRecorderVO();
-        quotationRecorderVO.setVoFromEntity(quotationEntity);
-        //TI_QuotationCostDetails costingDetails = new TI_QuotationCostDetails();
-        /*if(quotationRecorderVO.isFlight()){
-            int totalFlightCost=0,totalFlightMarkup=0;
-            for (ManualFlightQuotationVO flightQuotationVO : quotationRecorderVO.getManualQuotationsVoList()) {
-                totalFlightCost = totalFlightCost + flightQuotationVO.getFlightCost();
-                totalFlightMarkup = totalFlightMarkup + flightQuotationVO.getFlightMarkup();
-            }
-            costingDetails.setFlightTotalCost(totalFlightCost);
-            costingDetails.setFlightTotalMarkup(totalFlightMarkup);
-        }
-        if(quotationRecorderVO.isHotel()){
-            Map mapTempHotelOptionsList = restTemplate.getForObject("http://localhost:8080/udanchoo/getOptionWiseHotelMap?quotationId={quotationId}", Map.class, quotationEntity.getQuotationId());
-            Map hotelPriceOptionWise = new HashMap();
-            for (Object strkey : mapTempHotelOptionsList.keySet()) {
-                List linkedHashMap = (List) mapTempHotelOptionsList.get(strkey);
-                int hotelTotalCostAndMarkup=0;
-                for(int i=0;i<linkedHashMap.size();i++) {
-                    Integer stayCost = (Integer) ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayCost");
-                    Integer stayMarkup = (Integer) ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayMarkup");
-                    hotelTotalCostAndMarkup = hotelTotalCostAndMarkup + stayCost.intValue() + stayMarkup.intValue();
-                    System.out.println("Stay : " + stayCost + "---" + stayMarkup);
-                    //System.out.println("Cost is " + ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayCost"));
-                    //System.out.println("Markup is " + ((LinkedHashMap) linkedHashMap.get(i)).get("hotelStayMarkup"));
-                }
-                hotelPriceOptionWise.put(strkey,hotelTotalCostAndMarkup);
-            }
-            costingDetails.setHotelOptionsWithCostAndMarkup(hotelPriceOptionWise);
-        }
-        if(quotationRecorderVO.isTransfers()){
-            int totalTransfersCost=0,totalTransfersMarkup=0;
-            for (ManualTransferQuotationVO transfersQuotationVO : quotationRecorderVO.getTransferVoList()) {
-                totalTransfersCost = totalTransfersCost + transfersQuotationVO.getTransferCost();
-                totalTransfersMarkup = totalTransfersMarkup + transfersQuotationVO.getTransferMarkup();
-            }
-            costingDetails.setTransfersTotalCost(totalTransfersCost);
-            costingDetails.setTransfersTotalMarkup(totalTransfersMarkup);
-        }
-
-         */
-
-
-    }
 
     private void prepareOthersQuotationDetails(Udn_Configuration_Manual_Quotation_Entity manualConfigurationEntity, Map<String, Object> quotationInputDataMap, TI_QuotationCostDetails costingDetails) {
         Tg_Quotation_Recorder_Entity quotationEntity = manualConfigurationEntity.getQuotationEntity();
@@ -191,6 +253,7 @@ public class QuotationGenerateServiceImpl  {
             }
             costingDetails.setOtherTotalCost(totalOthersCost);
             costingDetails.setOtherTotalMarkup(totalOthersMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalOthersCost+totalOthersMarkup);
             quotationInputDataMap.put("OthersVOList", quotationRecorderVO.getOtherVoList());
         }
     }
@@ -202,7 +265,7 @@ public class QuotationGenerateServiceImpl  {
         if(quotationRecorderVO.isInsurance()) {
             int totalInsuranceCost=0,totalInsuranceMarkup=0;
             for (ManualInsuranceQuotationVO insuranceVO : quotationRecorderVO.getInsuranceVoList()) {
-                TI_CityRecorderDTO insuranceDestDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, insuranceVO.getCountryId());
+                TI_CityRecorderDTO insuranceDestDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, insuranceVO.getCountryId());
                 insuranceVO.setInsuranceProviderName(TIConstants.INSURANCE_PROVIDERS_MAP.get(insuranceVO.getInsuranceProvider()));
                 insuranceVO.setCountryName(insuranceDestDTO.getCountryName());
                 totalInsuranceCost = totalInsuranceCost + insuranceVO.getPremiumCost();
@@ -210,6 +273,7 @@ public class QuotationGenerateServiceImpl  {
             }
             costingDetails.setInsuranceTotalCost(totalInsuranceCost);
             costingDetails.setInsuranceTotalMarkup(totalInsuranceMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalInsuranceCost+totalInsuranceMarkup);
             quotationInputDataMap.put("InsuranceVOList",quotationRecorderVO.getInsuranceVoList());
         }
     }
@@ -222,15 +286,16 @@ public class QuotationGenerateServiceImpl  {
             int totalVisaCost=0,totalVisaMarkup=0;
             for (ManualVisaQuotationVO visaQuotationVO : quotationRecorderVO.getVisaVoList()) {
                 Udn_Visa_Master_Entity visaEntity = visaQuotationVO.getVisaQuotationEntity();
-                TI_CityRecorderDTO visaDestDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, visaEntity.getConsulateCity());
+                TI_CityRecorderDTO visaDestDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, visaEntity.getConsulateCity());
                 visaQuotationVO.setVisaConsulate(visaDestDTO.getCityName());
-                visaDestDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCountryByCode?countryCode={countryCode}", TI_CityRecorderDTO.class, visaEntity.getCountryCode());
+                visaDestDTO = restTemplate.getForObject(COUNTRY_BY_CODE_SERVICE, TI_CityRecorderDTO.class, visaEntity.getCountryCode());
                 visaQuotationVO.setVisaCountry(visaDestDTO.getCountryName());
                 totalVisaCost = totalVisaCost + visaQuotationVO.getVisaCost();
                 totalVisaMarkup = totalVisaMarkup + visaQuotationVO.getVisaMarkup();
             }
             costingDetails.setVisaTotalCost(totalVisaCost);
             costingDetails.setVisaTotalMarkup(totalVisaMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalVisaCost+totalVisaMarkup);
             quotationInputDataMap.put("VisaVOList",quotationRecorderVO.getVisaVoList());
         }
 
@@ -243,13 +308,14 @@ public class QuotationGenerateServiceImpl  {
         if(quotationRecorderVO.isTourPackage()) {
             int totalTourPackageCost=0,totalTourPackageMarkup=0;
             for (ManualPackageQuotationVO tourPackageQuotationVO : quotationRecorderVO.getTourPackageVoList()) {
-                TI_CityRecorderDTO cityDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, tourPackageQuotationVO.getCityId());
+                TI_CityRecorderDTO cityDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, tourPackageQuotationVO.getCityId());
                 tourPackageQuotationVO.setCityName(cityDTO.getCityName());
                 totalTourPackageCost = totalTourPackageCost + tourPackageQuotationVO.getPkgCost() ;
                 totalTourPackageMarkup = totalTourPackageMarkup + tourPackageQuotationVO.getPkgMarkup();
             }
             costingDetails.setTourPackageTotalCost(totalTourPackageCost);
             costingDetails.setTourPackageTotalMarkup(totalTourPackageMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalTourPackageCost+totalTourPackageMarkup);
             quotationInputDataMap.put("TourPackagesVOList",quotationRecorderVO.getTourPackageVoList());
         }
 
@@ -262,8 +328,8 @@ public class QuotationGenerateServiceImpl  {
         if(quotationRecorderVO.isTransfers()) {
             int totalTransfersCost=0,totalTransfersMarkup=0;
             for (ManualTransferQuotationVO transferQuotationVO : quotationRecorderVO.getTransferVoList()) {
-                TI_CityRecorderDTO pickupCityDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, transferQuotationVO.getPickUpCityId());
-                TI_CityRecorderDTO dropCityDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, transferQuotationVO.getDropToCityId());
+                TI_CityRecorderDTO pickupCityDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, transferQuotationVO.getPickUpCityId());
+                TI_CityRecorderDTO dropCityDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, transferQuotationVO.getDropToCityId());
                 transferQuotationVO.setPickUpCityName(pickupCityDTO.getCityName());
                 transferQuotationVO.setDropToCityName(dropCityDTO.getCityName());
                 transferQuotationVO.setPickUpFromDesc(TIConstants.TRANSFER_POINT_MAP.get(transferQuotationVO.getPickUpFrom()));
@@ -275,6 +341,7 @@ public class QuotationGenerateServiceImpl  {
             }
             costingDetails.setTransfersTotalCost(totalTransfersCost);
             costingDetails.setTransfersTotalMarkup(totalTransfersMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalTransfersCost+totalTransfersMarkup);
             quotationInputDataMap.put("TransfersVOList",quotationRecorderVO.getTransferVoList());
         }
     }
@@ -286,7 +353,7 @@ public class QuotationGenerateServiceImpl  {
         if(quotationRecorderVO.isCruise()) {
             int totalCruiseCost=0,totalCruiseMarkup=0;
             for (ManualCruiseQuotationVO cruiseVO : quotationRecorderVO.getCruiseVoList()) {
-                TI_CityRecorderDTO cityDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, cruiseVO.getCityId());
+                TI_CityRecorderDTO cityDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, cruiseVO.getCityId());
                 cruiseVO.setCityName(cityDTO.getCityName());
                 cruiseVO.setStateRoomName(TIConstants.CRUISE_STATE_ROOM_TYPE_MAP.get(cruiseVO.getStateRoomType()));
                 cruiseVO.setCruiseProviderName(TIConstants.CRUISE_PROVIDER_NAMES_MAP.get(cruiseVO.getCruiseProvider()));
@@ -295,6 +362,7 @@ public class QuotationGenerateServiceImpl  {
             }
             costingDetails.setCruiseTotalCost(totalCruiseCost);
             costingDetails.setCruiseTotalMarkup(totalCruiseMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalCruiseCost+totalCruiseMarkup);
             quotationInputDataMap.put("CruiseVOList",quotationRecorderVO.getCruiseVoList());
         }
 
@@ -307,7 +375,7 @@ public class QuotationGenerateServiceImpl  {
         if(quotationRecorderVO.isSightseeing()) {
             int totalSightSeeingCost=0,totalSightSeeingMarkup=0;
             for (ManualSightSeeingQuotationVO sightSeeingVO : quotationRecorderVO.getSightSeeingVoList()) {
-                TI_CityRecorderDTO cityDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, sightSeeingVO.getCityId());
+                TI_CityRecorderDTO cityDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, sightSeeingVO.getCityId());
                 sightSeeingVO.setCityName(cityDTO.getCityName());
                 sightSeeingVO.setTransferTypeName(TIConstants.TRANSFER_TYPE_MODE.get(sightSeeingVO.getTransferType()));
                 totalSightSeeingCost = totalSightSeeingCost + sightSeeingVO.getSightSeeingCost();
@@ -315,15 +383,16 @@ public class QuotationGenerateServiceImpl  {
             }
             costingDetails.setSightSeeingTotalCost(totalSightSeeingCost);
             costingDetails.setSightSeeingTotalMarkup(totalSightSeeingMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalSightSeeingCost+totalSightSeeingMarkup);
             quotationInputDataMap.put("SightSeeingVOList",quotationRecorderVO.getSightSeeingVoList());
         }
 
     }
 
     private void prepareFlightQuotationDetails(Udn_Configuration_Manual_Quotation_Entity manualConfigurationEntity, Map<String, Object> quotationInputDataMap, TI_QuotationCostDetails costingDetails) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("b2bPartnerId", String.valueOf(manualConfigurationEntity.getPartnerId()));
-        params.put("clientId", String.valueOf(manualConfigurationEntity.getQuotationEntity().getLeadEntity().getContactId()));
+        //Map<String, String> params = new HashMap<String, String>();
+        //params.put("b2bPartnerId", String.valueOf(manualConfigurationEntity.getPartnerId()));
+        //params.put("clientId", String.valueOf(manualConfigurationEntity.getQuotationEntity().getLeadEntity().getContactId()));
         int srcCityId= manualConfigurationEntity.getQuotationEntity().getLeadEntity().getSource();
         int dstCityId= manualConfigurationEntity.getQuotationEntity().getLeadEntity().getDestination();
         Tg_Quotation_Recorder_Entity quotationEntity= manualConfigurationEntity.getQuotationEntity();
@@ -334,18 +403,18 @@ public class QuotationGenerateServiceImpl  {
             //quotationRecorderVO.getManualQuotationsVoList().forEach((e) -> {
             int totalFlightCost=0,totalFlightMarkup=0;
             for (ManualFlightQuotationVO flightQuotationVO : quotationRecorderVO.getManualQuotationsVoList()) {
-                TI_AirlineDTO airlineDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getAirlineById?airlineId={airlineId}", TI_AirlineDTO.class, flightQuotationVO.getAirlineId());
-                TI_AirportDTO originAirportDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getAirportById?airportId={airportId}", TI_AirportDTO.class, flightQuotationVO.getAirportCodeOrigin());
-                TI_AirportDTO destAirportDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getAirportById?airportId={airportId}", TI_AirportDTO.class, flightQuotationVO.getAirportCodeDestination());
+                TI_AirlineDTO airlineDTO = restTemplate.getForObject(AIRLINE_BY_ID_SERVICE, TI_AirlineDTO.class, flightQuotationVO.getAirlineId());
+                TI_AirportDTO originAirportDTO = restTemplate.getForObject(AIRPORT_BY_ID_SERVICE, TI_AirportDTO.class, flightQuotationVO.getAirportCodeOrigin());
+                TI_AirportDTO destAirportDTO = restTemplate.getForObject(AIRPORT_BY_ID_SERVICE, TI_AirportDTO.class, flightQuotationVO.getAirportCodeDestination());
                 flightQuotationVO.setAirlineName(airlineDTO.getAirlineShortName());
                 flightQuotationVO.setCabinClassName(TIConstants.CABIN_CLASS.get(flightQuotationVO.getCabinClass()));
                 flightQuotationVO.setOriginCity(originAirportDTO.getCityName());
                 flightQuotationVO.setDestinationCity(destAirportDTO.getCityName());
                 if (manualConfigurationEntity.isFlightShowConnections()) {
                     flightQuotationVO.getFlightStopsQuotationsVoList().forEach(flightStopDetailQuotationVO -> {
-                        TI_AirlineDTO fsAirlineDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getAirlineById?airlineId={airlineId}", TI_AirlineDTO.class, flightStopDetailQuotationVO.getAirlineId());
-                        TI_AirportDTO fsOriginAirportDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getAirportById?airportId={airportId}", TI_AirportDTO.class, flightStopDetailQuotationVO.getAirportCodeOrigin());
-                        TI_AirportDTO fsDestAirportDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getAirportById?airportId={airportId}", TI_AirportDTO.class, flightStopDetailQuotationVO.getAirportCodeDestination());
+                        TI_AirlineDTO fsAirlineDTO = restTemplate.getForObject(AIRLINE_BY_ID_SERVICE, TI_AirlineDTO.class, flightStopDetailQuotationVO.getAirlineId());
+                        TI_AirportDTO fsOriginAirportDTO = restTemplate.getForObject(AIRPORT_BY_ID_SERVICE, TI_AirportDTO.class, flightStopDetailQuotationVO.getAirportCodeOrigin());
+                        TI_AirportDTO fsDestAirportDTO = restTemplate.getForObject(AIRPORT_BY_ID_SERVICE, TI_AirportDTO.class, flightStopDetailQuotationVO.getAirportCodeDestination());
                         flightStopDetailQuotationVO.setAirlineName(fsAirlineDTO.getAirlineShortName());
                         flightStopDetailQuotationVO.setOriginCity(fsOriginAirportDTO.getCityName());
                         flightStopDetailQuotationVO.setDestinationCity(fsDestAirportDTO.getCityName());
@@ -357,15 +426,15 @@ public class QuotationGenerateServiceImpl  {
             }
             costingDetails.setFlightTotalCost(totalFlightCost);
             costingDetails.setFlightTotalMarkup(totalFlightMarkup);
+            costingDetails.setGrandTotalWithoutHotel(costingDetails.getGrandTotalWithoutHotel()+totalFlightCost+totalFlightMarkup);
 
         }
-        TI_B2bPartnersDTO b2bPartnersDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getB2bPartnerById?b2bPartnerId={b2bPartnerId}", TI_B2bPartnersDTO.class, params);
-        ClientRecorderDTO clientDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getClientById?clientId={clientId}", ClientRecorderDTO.class, params);
-        TI_CityRecorderDTO srcCityDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, srcCityId);
-        TI_CityRecorderDTO dstCityDTO = restTemplate.getForObject("http://localhost:8080/udanchoo/getCityById?cityId={cityId}", TI_CityRecorderDTO.class, dstCityId);
+
+        ClientRecorderDTO clientDTO = restTemplate.getForObject(CLIENT_BY_ID_SERVICE, ClientRecorderDTO.class, String.valueOf(manualConfigurationEntity.getQuotationEntity().getLeadEntity().getContactId()));
+        TI_CityRecorderDTO srcCityDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, srcCityId);
+        TI_CityRecorderDTO dstCityDTO = restTemplate.getForObject(CITY_BY_ID_SERVICE, TI_CityRecorderDTO.class, dstCityId);
 
         quotationInputDataMap.put("manualConfigurationEntity",manualConfigurationEntity);
-        quotationInputDataMap.put("b2bPartnersDTO",b2bPartnersDTO);
         quotationInputDataMap.put("leadRecorderDTO",manualConfigurationEntity.getQuotationEntity().getLeadEntity());
         quotationInputDataMap.put("quotationRecorderDTO",quotationRecorderVO);
         quotationInputDataMap.put("clientName",clientDTO.getClientName());

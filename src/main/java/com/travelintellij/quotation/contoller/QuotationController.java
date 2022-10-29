@@ -1,14 +1,27 @@
 package com.travelintellij.quotation.contoller;
 
+import com.travelintellij.quotation.dto.EmailMessageVO;
+import com.travelintellij.quotation.dto.QuotationEmailSendingRequestVO;
 import com.travelintellij.quotation.entity.Customer;
 import com.travelintellij.quotation.entity.QuoteItem;
 import com.travelintellij.quotation.entity.Udn_Configuration_Manual_Quotation_Entity;
+import com.travelintellij.quotation.service.impl.EmailServiceImpl;
 import com.travelintellij.quotation.service.impl.QuotationGenerateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +34,11 @@ public class QuotationController {
     @Autowired
     QuotationGenerateServiceImpl quotationGenerateService;
 
+    @Value("${pdf.directory}")
+    private String quotationRootDirectory;
 
+    @Autowired
+    EmailServiceImpl emailService;
 
     @RequestMapping("generatePdf")
     public String generatePdf(){
@@ -59,17 +76,92 @@ public class QuotationController {
 
         data.put("quoteItems", quoteItems);
 
-        quotationGenerateService.generatePdfFile("quotation", data, "quotation.pdf");
+        //quotationGenerateService.generatePdfFile("quotation", data, "quotation.pdf");
 
         return "Munna Pdf Successfully Created !! ";
     }
 
     @RequestMapping("generateQuotation")
     public String generateQuotation(@RequestParam long quotationId,@RequestParam long manualConfigurationQuotationId){
-        quotationGenerateService.generationQuotation(quotationId, manualConfigurationQuotationId);
+        boolean isSuccess = quotationGenerateService.generationQuotation(quotationId, manualConfigurationQuotationId);
         //Udn_Configuration_Manual_Quotation_Entity manualConfigQtnEntity = quotationGenerateService.find_Manual_Configuration_Quotation_By_Id(quotationId);
+        if(isSuccess)
+            return Boolean.TRUE.toString();
+        else
+            return Boolean.FALSE.toString();
 
-        return "Success";
+    }
+
+    @RequestMapping("checkQuotationExists")
+    @ResponseBody
+    public String checkQuotationExists(@RequestParam("leadId") int leadId,@RequestParam("quotationId")int quotationId,@RequestParam("version") int version) {
+        String quotationFileName = "Q-"+ leadId + "-" + quotationId + "-" +  version + ".pdf";
+        String quotationFilePath = quotationRootDirectory + File.separator + "L" + leadId + File.separator + "Q" + quotationId + File.separator +  "V" + version;
+        File quotationFile = new File(quotationFilePath + File.separator + quotationFileName);
+        if(quotationFile.exists())
+            return Boolean.TRUE.toString();
+        else
+            return Boolean.FALSE.toString();
+    }
+
+    @RequestMapping("deleteQuotation")
+    @ResponseBody
+    public String deleteQuotation(@RequestParam("leadId") int leadId,@RequestParam("quotationId")int quotationId,@RequestParam("version") int version) {
+        String quotationFileName = "Q-"+ leadId + "-" + quotationId + "-" +  version + ".pdf";
+        String quotationFilePath = quotationRootDirectory + File.separator + "L" + leadId + File.separator + "Q" + quotationId + File.separator +  "V" + version;
+        File quotationFile = new File(quotationFilePath + File.separator + quotationFileName);
+        quotationFile.delete();
+        if(quotationFile.exists())
+            return Boolean.FALSE.toString();
+        else
+            return Boolean.TRUE.toString();
+    }
+
+
+    @RequestMapping(path = "/downloadQuotation", method = RequestMethod.GET)
+    public ResponseEntity<Resource> downloadQuotation(@RequestParam("leadId") int leadId, @RequestParam("quotationId")int quotationId, @RequestParam("version") int version) throws IOException, MalformedURLException {
+        String quotationFileName = "Q-"+ leadId + "-" + quotationId + "-" +  version + ".pdf";
+        String quotationFilePath = quotationRootDirectory + File.separator + "L" + leadId + File.separator + "Q" + quotationId + File.separator +  "V" + version;
+        String quotationFullFilePath = quotationFilePath + File.separator + quotationFileName;
+
+        String  contentType = "application/octet-stream";
+        Path path = Paths.get(quotationFullFilePath);
+        Resource resource = new UrlResource(path.toUri());
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    @RequestMapping(path = "/viewQuotation", method = RequestMethod.GET)
+    public ResponseEntity<Resource> viewQuotation(@RequestParam("leadId") int leadId, @RequestParam("quotationId")int quotationId, @RequestParam("version") int version) throws IOException, MalformedURLException {
+        String quotationFileName = "Q-"+ leadId + "-" + quotationId + "-" +  version + ".pdf";
+        String quotationFilePath = quotationRootDirectory + File.separator + "L" + leadId + File.separator + "Q" + quotationId + File.separator +  "V" + version;
+        String quotationFullFilePath = quotationFilePath + File.separator + quotationFileName;
+
+        String  contentType = "application/pdf";
+        Path path = Paths.get(quotationFullFilePath);
+        Resource resource = new UrlResource(path.toUri());
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    @RequestMapping(path = "/sendEmailQuotation", method = RequestMethod.POST)
+    public String sendEmailQuotation( @RequestBody QuotationEmailSendingRequestVO emailQuotationMessageVO)  {
+        String quotationFileName = "Q-"+ emailQuotationMessageVO.getLeadId() + "-" + emailQuotationMessageVO.getQuotationId() + "-" +  emailQuotationMessageVO.getVersion() + ".pdf";
+        String quotationFilePath = quotationRootDirectory + File.separator + "L" + emailQuotationMessageVO.getLeadId() + File.separator + "Q" + emailQuotationMessageVO.getQuotationId() + File.separator +  "V" + emailQuotationMessageVO.getVersion();
+        String quotationFullFilePath = quotationFilePath + File.separator + quotationFileName;
+        ArrayList fileList = new ArrayList();
+        fileList.add(quotationFullFilePath);
+        try {
+            System.out.println("Sending Quotation Email" + emailQuotationMessageVO.getQuotationId() );
+            emailService.sendMailWithAttachment(emailQuotationMessageVO.getEmailMessageVO(), fileList);
+            System.out.println("Quotation Email Sent..");
+        }
+        catch (Exception e) {
+            return Boolean.FALSE.toString();
+        }
+        return Boolean.TRUE.toString();
     }
 
 }

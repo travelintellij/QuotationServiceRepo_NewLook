@@ -1,4 +1,4 @@
-<div class="header" th:fragment="_quotationOthers" style="padding:0px;">
+<div class="header" th:fragment="_quotationOthers" th:style="${manualConfigurationEntity.othersStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <p align="center">Others Services Section</p>
 </div>
 

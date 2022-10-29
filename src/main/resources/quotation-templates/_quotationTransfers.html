@@ -1,4 +1,4 @@
-<div class="header" th:fragment="_quotationTransfers" style="padding:0px;">
+<div class="header" th:fragment="_quotationTransfers" th:style="${manualConfigurationEntity.transfersStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <p align="center">Transfers Section</p>
 </div>
 

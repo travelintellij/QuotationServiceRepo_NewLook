@@ -11,6 +11,8 @@ public class TI_B2bPartnersDTO {
 	public TI_B2bPartnersDTO() {}
 	private int partnerId;
 	private String partnerShortName;
+
+	private String partnerBrandName;
 	private String partnerName ;
 	private String address ;
 	private long mobile ;

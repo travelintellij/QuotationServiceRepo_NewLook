@@ -79,8 +79,21 @@ public class Udn_Configuration_Manual_Quotation_Entity extends AuditModel {
 	protected int totalQuotationAmount;
 	protected boolean leftOverAmtDisplay;
 	protected boolean showBankAccounts=true;
-	
-	
+
+	protected boolean flightStarNewPage;
+	protected boolean hotelStartNewPage;
+	protected boolean sightSeeingStartNewPage;
+	protected boolean transfersStartNewPage;
+	protected boolean packagesStartNewPage;
+	protected boolean visaStartNewPage;
+	protected boolean insuranceStartNewPage;
+	protected boolean othersStartNewPage;
+	protected boolean cruiseStartNewPage;
+
+	protected boolean costingStartNewPage;
+	protected boolean tncStartNewPage;
+
+
 	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="quotationId", nullable=false)
 	@JsonManagedReference
@@ -137,7 +150,17 @@ public class Udn_Configuration_Manual_Quotation_Entity extends AuditModel {
 		this.remarks=configureQtnVO.getRemarks();
 		this.leftOverAmtDisplay =configureQtnVO.isLeftOverAmtDisplay(); 
 		this.showBankAccounts=configureQtnVO.isShowBankAccounts();
-		
+		this.flightStarNewPage=configureQtnVO.isFlightStarNewPage();
+		this.hotelStartNewPage=configureQtnVO.isHotelStartNewPage();
+		this.sightSeeingStartNewPage=configureQtnVO.isSightSeeingStartNewPage();
+		this.transfersStartNewPage=configureQtnVO.isTransfersStartNewPage();
+		this.packagesStartNewPage=configureQtnVO.isPackagesStartNewPage();
+		this.visaStartNewPage=configureQtnVO.isVisaStartNewPage();
+		this.insuranceStartNewPage=configureQtnVO.isInsuranceStartNewPage();
+		this.othersStartNewPage=configureQtnVO.isOthersStartNewPage();
+		this.cruiseStartNewPage=configureQtnVO.isCruiseStartNewPage();
+		this.costingStartNewPage=configureQtnVO.isCostingStartNewPage();
+		this.tncStartNewPage=configureQtnVO.isTncStartNewPage();
 	}
 
 	
@@ -570,6 +593,94 @@ public class Udn_Configuration_Manual_Quotation_Entity extends AuditModel {
 		this.showBankAccounts = showBankAccounts;
 	}
 
+	public boolean isFlightStarNewPage() {
+		return flightStarNewPage;
+	}
+
+	public void setFlightStarNewPage(boolean flightStarNewPage) {
+		this.flightStarNewPage = flightStarNewPage;
+	}
+
+	public boolean isHotelStartNewPage() {
+		return hotelStartNewPage;
+	}
+
+	public void setHotelStartNewPage(boolean hotelStartNewPage) {
+		this.hotelStartNewPage = hotelStartNewPage;
+	}
+
+	public boolean isSightSeeingStartNewPage() {
+		return sightSeeingStartNewPage;
+	}
+
+	public void setSightSeeingStartNewPage(boolean sightSeeingStartNewPage) {
+		this.sightSeeingStartNewPage = sightSeeingStartNewPage;
+	}
+
+	public boolean isTransfersStartNewPage() {
+		return transfersStartNewPage;
+	}
+
+	public void setTransfersStartNewPage(boolean transfersStartNewPage) {
+		this.transfersStartNewPage = transfersStartNewPage;
+	}
+
+	public boolean isPackagesStartNewPage() {
+		return packagesStartNewPage;
+	}
+
+	public void setPackagesStartNewPage(boolean packagesStartNewPage) {
+		this.packagesStartNewPage = packagesStartNewPage;
+	}
+
+	public boolean isVisaStartNewPage() {
+		return visaStartNewPage;
+	}
+
+	public void setVisaStartNewPage(boolean visaStartNewPage) {
+		this.visaStartNewPage = visaStartNewPage;
+	}
+
+	public boolean isInsuranceStartNewPage() {
+		return insuranceStartNewPage;
+	}
+
+	public void setInsuranceStartNewPage(boolean insuranceStartNewPage) {
+		this.insuranceStartNewPage = insuranceStartNewPage;
+	}
+
+	public boolean isOthersStartNewPage() {
+		return othersStartNewPage;
+	}
+
+	public void setOthersStartNewPage(boolean othersStartNewPage) {
+		this.othersStartNewPage = othersStartNewPage;
+	}
+
+	public boolean isCruiseStartNewPage() {
+		return cruiseStartNewPage;
+	}
+
+	public void setCruiseStartNewPage(boolean cruiseStartNewPage) {
+		this.cruiseStartNewPage = cruiseStartNewPage;
+	}
+
+	public boolean isCostingStartNewPage() {
+		return costingStartNewPage;
+	}
+
+	public void setCostingStartNewPage(boolean costingStartNewPage) {
+		this.costingStartNewPage = costingStartNewPage;
+	}
+
+	public boolean isTncStartNewPage() {
+		return tncStartNewPage;
+	}
+
+	public void setTncStartNewPage(boolean tncStartNewPage) {
+		this.tncStartNewPage = tncStartNewPage;
+	}
+
 	@Override
 	public String toString() {
 		return "Udn_Configuration_Manual_Quotation_Entity{" +
@@ -622,9 +733,18 @@ public class Udn_Configuration_Manual_Quotation_Entity extends AuditModel {
 				", totalQuotationAmount=" + totalQuotationAmount +
 				", leftOverAmtDisplay=" + leftOverAmtDisplay +
 				", showBankAccounts=" + showBankAccounts +
+				", flightStarNewPage=" + flightStarNewPage +
+				", hotelStartNewPage=" + hotelStartNewPage +
+				", sightSeeingStartNewPage=" + sightSeeingStartNewPage +
+				", transfersStartNewPage=" + transfersStartNewPage +
+				", packagesStartNewPage=" + packagesStartNewPage +
+				", visaStartNewPage=" + visaStartNewPage +
+				", insuranceStartNewPage=" + insuranceStartNewPage +
+				", othersStartNewPage=" + othersStartNewPage +
+				", cruiseStartNewPage=" + cruiseStartNewPage +
+				", costingStarNewPage=" + costingStartNewPage +
+				", tncStarNewPage=" + tncStartNewPage +
 				", quotationEntity=" + quotationEntity +
 				'}';
 	}
-
-
 }

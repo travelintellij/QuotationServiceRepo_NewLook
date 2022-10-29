@@ -1,4 +1,4 @@
-<div class="header" th:fragment="_quotationFlights" style="padding:0px;">
+<div class="header" th:fragment="_quotationFlights" th:style="${manualConfigurationEntity.flightStarNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <p align="center">Flights</p>
 </div>
 
@@ -30,7 +30,7 @@
         <td th:text="${flightObj.noOfStops}"> </td>
         <td th:text="${flightObj.cabinClassName}"> </td>
         </tr>
-        <span th:if="${manualConfigurationEntity.flightShowConnections } ">
+        <span th:if="${manualConfigurationEntity.flightShowConnections and (#lists.size(flightObj.flightStopsQuotationsVoList) >0)} ">
         <tr style="page-break-inside: avoid">
              <td colspan="8">
             <table style="width:80%;background-color:cream;" align="center">

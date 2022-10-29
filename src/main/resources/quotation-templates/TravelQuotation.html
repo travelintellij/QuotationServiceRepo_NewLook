@@ -103,12 +103,18 @@
       color: white;
     }
 
+
+
+
 </style>
 </head>
 
 <div th:insert="_quotationHeader :: _quotationHeader1">  </div>
 <div th:insert="_quotationHeader :: _quotationHeader2">  </div>
 <body>
+
+
+
 <table class="quotation">
     <tr>
         <th>Query Id</th><th style="width:7%;">Version</th><th>Client Name</th><th>From (+-More)</th><th>To (+-More)</th><th>Start Date</th><th>End Date</th><th>Adults</th><th>Children</th>
@@ -221,6 +227,21 @@
     <br/>
     <div th:insert="_quotationOthers :: _quotationOthers2">  </div>
 </span>
+
+
+    <br/><br/>
+    <div th:insert="_quotationCosting :: _quotationCosting">  </div>
+    <br/>
+    <div th:insert="_quotationCosting :: _quotationCosting2">  </div>
+
+
+    <br/><br/>
+    <div th:insert="_quotationFooter :: _quotationFooter">  </div>
+    <br/>
+    <div th:insert="_quotationFooter :: _quotationFooter2">  </div>
+
+
+
 
 </body>
 </html>

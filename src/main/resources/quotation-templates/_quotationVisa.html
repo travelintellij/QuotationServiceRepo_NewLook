@@ -1,4 +1,4 @@
-<div class="header" th:fragment="_quotationVisa" style="padding:0px;">
+<div class="header" th:fragment="_quotationVisa" th:style="${manualConfigurationEntity.visaStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <p align="center">Visa Section</p>
 </div>
 

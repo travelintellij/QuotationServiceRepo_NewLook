@@ -59,6 +59,19 @@ public class ConfigurationQuotationVO extends Udn_Configuration_Manual_Quotation
 		this.remarks= configurationEntity.getRemarks();
 		this.leftOverAmtDisplay=configurationEntity.isLeftOverAmtDisplay();
 		this.showBankAccounts=configurationEntity.isShowBankAccounts();
+
+		this.flightStarNewPage=configurationEntity.isFlightStarNewPage();
+		this.hotelStartNewPage=configurationEntity.isHotelStartNewPage();
+		this.sightSeeingStartNewPage=configurationEntity.isSightSeeingStartNewPage();
+		this.transfersStartNewPage=configurationEntity.isTransfersStartNewPage();
+		this.packagesStartNewPage=configurationEntity.isPackagesStartNewPage();
+		this.visaStartNewPage=configurationEntity.isVisaStartNewPage();
+		this.insuranceStartNewPage=configurationEntity.isInsuranceStartNewPage();
+		this.othersStartNewPage=configurationEntity.isOthersStartNewPage();
+		this.cruiseStartNewPage=configurationEntity.isCruiseStartNewPage();
+		this.costingStartNewPage=configurationEntity.isCostingStartNewPage();
+		this.tncStartNewPage=configurationEntity.isTncStartNewPage();
+
 	}
 	public String getPartnerName() {
 		return partnerName;

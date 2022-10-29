@@ -1,6 +1,8 @@
-<div class="header" th:fragment="_quotationCruise" style="padding:0px;">
+<div class="header" th:fragment="_quotationCruise" th:style="${manualConfigurationEntity.cruiseStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <p align="center">Cruise</p>
 </div>
+
+
 
 <div th:fragment="_quotationCruise2" >
     <table class="services" style="page-break-inside: avoid">

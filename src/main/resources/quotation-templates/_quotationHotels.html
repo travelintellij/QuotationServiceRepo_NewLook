@@ -1,12 +1,12 @@
-<div class="header" th:fragment="_quotationHotels" style="padding:0px;">
+<div class="header" th:fragment="_quotationHotels" th:style="${manualConfigurationEntity.hotelStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <p align="center">Hotels</p>
 </div>
 
 <div th:fragment="_quotationHotels2" >
     <th:block th:each="hotelOption,iterator: ${mapHotelOptionsList}" >
         <table class="services" style="page-break-inside: avoid">
-            <span th:if="${#maps.size(mapHotelOptionsList)} > 0">
-                <caption> Hotel Option [[${iterator.index + 1 }]]</caption>
+            <span th:if="${#maps.size(mapHotelOptionsList)} > 1">
+                <caption> Hotel Option [[${hotelOption.key }]]</caption>
             </span>
             <tr style="page-break-inside: avoid">
                 <th style="background-color:#47C3FD;width:10%;">City</th>

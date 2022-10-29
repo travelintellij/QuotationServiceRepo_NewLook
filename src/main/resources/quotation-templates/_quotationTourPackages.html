@@ -1,4 +1,4 @@
-<div class="header" th:fragment="_quotationTourPackages" style="padding:0px;">
+<div class="header" th:fragment="_quotationTourPackages" th:style="${manualConfigurationEntity.packagesStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <p align="center">Tour Packages Section</p>
 </div>
 
@@ -29,36 +29,42 @@
             <td th:text="${tourPackagesObj.infant}"> </td>
             <td th:text="${tourPackagesObj.flightIncluded}"> </td>
         </tr>
+       <span th:if="${not #strings.isEmpty(tourPackagesObj.packageDescription)}">
         <tr>
-            <th style="background-color:#45B39D;text-align:center;page-break-inside: avoid;" colspan="8">Package Description</th>
-        </tr>
-        <tr style="page-break-inside: avoid;">
-            <td style="text-align:left;" colspan="8" ><pre>[[${tourPackagesObj.packageDescription}]]</pre></td>
+            <th style="background-color:#45B39D;text-align:center;page-break-inside: avoid;width:70%;" colspan="8">Package Description</th>
         </tr>
         <tr>
+            <td style="text-align:left;white-space: pre-line" colspan="8" >[[${tourPackagesObj.packageDescription}]]</td>
+        </tr>
+       </span>
+       <span th:if="${not #strings.isEmpty(tourPackagesObj.inclusions)}">
+           <tr>
             <th style="background-color:#27AE60;text-align:center;page-break-inside: avoid;" colspan="8">Inclusions</th>
         </tr>
         <tr style="page-break-inside: avoid;">
-            <td style="text-align:left;width:50%;" colspan="8" ><pre>[[${tourPackagesObj.inclusions}]]</pre></td>
+            <td style="text-align:left;width:50%;white-space: pre-line" colspan="8" >[[${tourPackagesObj.inclusions}]]</td>
         </tr>
+       </span>
+       <span th:if="${not #strings.isEmpty(tourPackagesObj.exclusions)}">
         <tr>
             <th style="background-color:#CD5C5C;text-align:center;page-break-inside: avoid;" colspan="8">Exclusions</th>
         </tr>
         <tr style="page-break-inside: avoid;">
-            <td style="text-align:left;width:50%;" colspan="8" ><pre>[[${tourPackagesObj.exclusions}]]</pre></td>
+            <td style="text-align:left;width:50%;white-space: pre-line" colspan="8" >[[${tourPackagesObj.exclusions}]]</td>
         </tr>
-        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
+       </span>
+        <tr th:if="${not #strings.isEmpty(tourPackagesObj.cancellationPolicy)}" style="page-break-inside: avoid;">
             <th style="background-color:#CD5C5C;text-align:center;page-break-inside: avoid;" colspan="8">Land Package Cancellation Policy</th>
         </tr>
-        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
-            <td colspan="8" style="text-align:left;"><pre>[[${tourPackagesObj.cancellationPolicy}]]</pre></td>
+        <tr th:if="${not #strings.isEmpty(tourPackagesObj.cancellationPolicy)}" style="page-break-inside: avoid;">
+            <td colspan="8" style="text-align:left;white-space: pre-line">[[${tourPackagesObj.cancellationPolicy}]]</td>
         </tr>
 
         <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
             <th style="background-color:#45B39D;text-align:center;page-break-inside: avoid;" colspan="8">Remarks</th>
         </tr>
         <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
-            <td colspan="8" style="text-align:left;"><pre>[[${tourPackagesObj.remarks}]]</pre></td>
+            <td colspan="8" style="text-align:left;white-space: pre-line">[[${tourPackagesObj.remarks}]]</td>
         </tr>
        </table>
         </th:block>
