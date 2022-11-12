@@ -1,10 +1,9 @@
 package com.travelintellij.quotation.contoller;
 
 import com.travelintellij.quotation.dto.EmailMessageVO;
+import com.travelintellij.quotation.dto.ManualFlightQuotationVO;
 import com.travelintellij.quotation.dto.QuotationEmailSendingRequestVO;
-import com.travelintellij.quotation.entity.Customer;
-import com.travelintellij.quotation.entity.QuoteItem;
-import com.travelintellij.quotation.entity.Udn_Configuration_Manual_Quotation_Entity;
+import com.travelintellij.quotation.entity.*;
 import com.travelintellij.quotation.service.impl.EmailServiceImpl;
 import com.travelintellij.quotation.service.impl.QuotationGenerateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -163,5 +159,20 @@ public class QuotationController {
         }
         return Boolean.TRUE.toString();
     }
+
+    @ResponseBody
+    @RequestMapping(path = "/getFlightDetailsByQuotationId", method = RequestMethod.GET)
+    public ManualFlightQuotationVO[] getFlightDetailsByQuotationId(long quotationId) {
+       Tg_Quotation_Recorder_Entity quotationEntity = quotationGenerateService.findQuotationRecordById(quotationId);
+        ManualFlightQuotationVO[] manualFlightQuotationVOArray = new ManualFlightQuotationVO[quotationEntity.getManualQuotationsList().size()];
+        int i=0;
+        for(Udn_Manual_Flight_Quotation_Entity flightEntity:quotationEntity.getManualQuotationsList()){
+            manualFlightQuotationVOArray[i] = new ManualFlightQuotationVO();
+            manualFlightQuotationVOArray[i].updateManualFlightVoFromEntity(flightEntity);
+            i++;
+       }
+       return manualFlightQuotationVOArray;
+    }
+
 
 }
