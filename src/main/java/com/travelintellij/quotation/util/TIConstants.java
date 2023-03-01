@@ -461,12 +461,12 @@ public interface TIConstants {
 	};
 	static final Map<Integer,String> CABIN_CLASS = new HashMap<Integer,String>(){
         {
-            put(1,"Economy");
-            put(2,"PremiumEconomy");
-            put(3,"Business");
-            put(4,"PremiumBusiness");
-            put(5,"First");
-          //Cabin class (1 for All, 2 for Economy, 3 for PremiumEconomy, 4 for Business, 5 for PremiumBusiness, 6 for First)
+			put(0,"Economy");
+			put(1,"Premium Economy");
+			put(2,"Business");
+			put(3,"First");
+			put(4,"Other");
+			//Cabin class (1 for All, 2 for Economy, 3 for PremiumEconomy, 4 for Business, 5 for PremiumBusiness, 6 for First)
         }
 	};
 
