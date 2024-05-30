@@ -80,6 +80,10 @@ public class QuotationGenerateServiceImpl  {
     @Value("${CLIENT_BY_ID_SERVICE}")
     private String CLIENT_BY_ID_SERVICE;
 
+    @Value("${LOGO_FILE_PATH}")
+    private String LOGO_FILE_PATH;
+
+
 
     public boolean generatePdfFile(String templateName, Map<String, Object> data,String quotationFilePath, String pdfFileName,String waterMarkBrandName) {
         Context context = new Context();
@@ -183,8 +187,19 @@ public class QuotationGenerateServiceImpl  {
         TI_B2bPartnersDTO b2bPartnersDTO = restTemplate.getForObject(B2B_PARTNER_SERVICE, TI_B2bPartnersDTO.class, String.valueOf(manualConfigurationEntity.getPartnerId()));
         quotationInputDataMap.put("b2bPartnersDTO",b2bPartnersDTO);
         String logoFileName=b2bPartnersDTO.getPartnerShortName()+".jpg";
+        File logoFile=new File(LOGO_FILE_PATH+"/"+logoFileName);
+        String logFileAbsPath;
+        if(logoFile.exists()) {
+            logFileAbsPath = logoFile.toURI().toString();
+        }
+        else{
+            logoFileName=b2bPartnersDTO.getPartnerShortName()+".png";
+            logoFile=new File(LOGO_FILE_PATH+"/"+logoFileName);
+            logFileAbsPath = logoFile.toURI().toString();
+        }
+        //String logFileAbsPath =LOGO_FILE_PATH+"/"+logoFileName;
+        quotationInputDataMap.put("LOGO_FILE_ABS_PATH",logFileAbsPath);
         quotationInputDataMap.put("LOGO_FILE_NAME",logoFileName);
-
         //System.out.println("Logo File Path is " + LOGO_BASE_PATH+b2bPartnersDTO.getPartnerShortName()+".jpg");
         prepareFlightQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareHotelQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);

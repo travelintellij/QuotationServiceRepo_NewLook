@@ -15,7 +15,7 @@ public class TI_B2bPartnersDTO {
 	private String partnerBrandName;
 	private String partnerName ;
 	private String address ;
-	private long mobile ;
+	private long contactNumber ;
 	private long cityId ;
 	private String email;
 	private String gstNumber;
@@ -30,7 +30,7 @@ public class TI_B2bPartnersDTO {
 				", partnerShortName='" + partnerShortName + '\'' +
 				", partnerName='" + partnerName + '\'' +
 				", address='" + address + '\'' +
-				", mobile=" + mobile +
+				", contact Number=" + contactNumber +
 				", cityId=" + cityId +
 				", email='" + email + '\'' +
 				", gstNumber='" + gstNumber + '\'' +
