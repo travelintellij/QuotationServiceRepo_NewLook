@@ -22,20 +22,33 @@ public class TI_B2bPartnersDTO {
 	private String remarks;
 	private boolean active;
 
+	private String beneficiaryName;
+	private String bankName;
+	private String bankAccountNumber;
+	private String bankIFSCCode;
+	private String bankBranch;
+	private String upiId;
 
 	@Override
 	public String toString() {
 		return "TI_B2bPartnersDTO{" +
 				"partnerId=" + partnerId +
 				", partnerShortName='" + partnerShortName + '\'' +
+				", partnerBrandName='" + partnerBrandName + '\'' +
 				", partnerName='" + partnerName + '\'' +
 				", address='" + address + '\'' +
-				", contact Number=" + contactNumber +
+				", contactNumber=" + contactNumber +
 				", cityId=" + cityId +
 				", email='" + email + '\'' +
 				", gstNumber='" + gstNumber + '\'' +
 				", remarks='" + remarks + '\'' +
 				", active=" + active +
+				", beneficiaryName='" + beneficiaryName + '\'' +
+				", bankName='" + bankName + '\'' +
+				", bankAccountNumber='" + bankAccountNumber + '\'' +
+				", bankIFSCCode='" + bankIFSCCode + '\'' +
+				", bankBranch='" + bankBranch + '\'' +
+				", upiId='" + upiId + '\'' +
 				'}';
 	}
 }
