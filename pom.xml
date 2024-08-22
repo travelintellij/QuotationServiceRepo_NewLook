@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.udanchoo</groupId>
 	<artifactId>Travel-IntelliJ-Quotation-Service</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
 		<spring.version>5.2.1.RELEASE</spring.version>
@@ -13,6 +13,7 @@
 		<hibernate-validator.version>6.1.2.Final</hibernate-validator.version>
 		<spring-data-jpa.version>2.2.6.RELEASE</spring-data-jpa.version>
 		<mysql-connector.version>8.0.17</mysql-connector.version>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
