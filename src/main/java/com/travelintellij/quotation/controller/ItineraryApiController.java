@@ -1,4 +1,4 @@
-package com.travelintellij.quotation.contoller;
+package com.travelintellij.quotation.controller;
 
 import com.travelintellij.quotation.entity.ItineraryMasterEntity;
 import com.travelintellij.quotation.entity.ItineraryDay;

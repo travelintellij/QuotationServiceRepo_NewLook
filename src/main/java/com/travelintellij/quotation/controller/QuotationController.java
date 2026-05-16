@@ -1,6 +1,5 @@
-package com.travelintellij.quotation.contoller;
+package com.travelintellij.quotation.controller;
 
-import com.travelintellij.quotation.dto.EmailMessageVO;
 import com.travelintellij.quotation.dto.ManualFlightQuotationVO;
 import com.travelintellij.quotation.dto.QuotationEmailSendingRequestVO;
 import com.travelintellij.quotation.entity.*;
@@ -19,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
