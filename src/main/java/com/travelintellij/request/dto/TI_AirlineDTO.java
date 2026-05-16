@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Getter
-@Setter
 public class TI_AirlineDTO {
 	
 	private long airlineId;
@@ -21,6 +19,78 @@ public class TI_AirlineDTO {
 	private long customerCare;
 	private String email;
 	private String remarks;
+
+	public long getAirlineId() {
+		return airlineId;
+	}
+
+	public void setAirlineId(long airlineId) {
+		this.airlineId = airlineId;
+	}
+
+	public String getAirlineCode() {
+		return airlineCode;
+	}
+
+	public void setAirlineCode(String airlineCode) {
+		this.airlineCode = airlineCode;
+	}
+
+	public String getAirlineShortName() {
+		return airlineShortName;
+	}
+
+	public void setAirlineShortName(String airlineShortName) {
+		this.airlineShortName = airlineShortName;
+	}
+
+	public String getAirlineName() {
+		return airlineName;
+	}
+
+	public void setAirlineName(String airlineName) {
+		this.airlineName = airlineName;
+	}
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public long getCustomerCare() {
+		return customerCare;
+	}
+
+	public void setCustomerCare(long customerCare) {
+		this.customerCare = customerCare;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 
 	public String toString() {
 		
