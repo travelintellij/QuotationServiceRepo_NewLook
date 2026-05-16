@@ -163,10 +163,14 @@ public class ItineraryApiController {
 
     @GetMapping("/getItineraryByQuotationId")
     public ItineraryMasterEntity getItineraryByQuotationId(@RequestParam Long quotationId) {
-
-        // TEMPORARY LOGIC
-        // replace with actual DB relation later
-
-        return itineraryMasterRepository.findById(quotationId).orElse(null);
+        // Fetch the quotation record first
+        Tg_Quotation_Recorder_Entity quotation = quotationRepository.findById(quotationId).orElse(null);
+        
+        if (quotation != null && quotation.getItineraryId() != null) {
+            // Then fetch the itinerary using the ID stored in the quotation
+            return itineraryMasterRepository.findById(quotation.getItineraryId()).orElse(null);
+        }
+        
+        return null;
     }
 }
