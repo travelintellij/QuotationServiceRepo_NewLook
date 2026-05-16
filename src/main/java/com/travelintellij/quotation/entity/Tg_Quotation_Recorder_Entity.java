@@ -55,6 +55,9 @@ public class Tg_Quotation_Recorder_Entity extends AuditModel {
 	protected boolean cruise;
 	protected boolean others;
 	
+	@javax.persistence.Column(name = "itineraryId")
+	protected Long itineraryId;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "quotationEntity")
 	@OrderBy("displayOrder")
@@ -128,6 +131,7 @@ public class Tg_Quotation_Recorder_Entity extends AuditModel {
 		this.quotationName=tgQuotationVo.getQuotationName();
 		this.createdBy=tgQuotationVo.getCreatedBy();
 		this.lastUpdatedBy=tgQuotationVo.getLastUpdatedBy();
+		this.itineraryId=tgQuotationVo.getItineraryId();
 		
 	}
 
@@ -175,7 +179,7 @@ public class Tg_Quotation_Recorder_Entity extends AuditModel {
 	public String toString() {
 		return "Tg_Quotation_Recorder_Entity [quotationId=" + quotationId + ", version=" + version + ", quotationName="
 				+ quotationName + ", createdBy=" + createdBy + ", lastUpdatedBy=" + lastUpdatedBy + ", leadEntity="
-				+ leadEntity + "]";
+				+ leadEntity + ", itineraryId=" + itineraryId + "]";
 	}
 	
 	
@@ -319,6 +323,16 @@ public class Tg_Quotation_Recorder_Entity extends AuditModel {
 	public void setConfigurationQuotationEntity(Udn_Configuration_Manual_Quotation_Entity configurationQuotationEntity) {
 		this.configurationQuotationEntity = configurationQuotationEntity;
 	}
+
+	public Long getItineraryId() {
+		return itineraryId;
+	}
+
+	public void setItineraryId(Long itineraryId) {
+		this.itineraryId = itineraryId;
+	}
+	
+	
 	
 	
 	

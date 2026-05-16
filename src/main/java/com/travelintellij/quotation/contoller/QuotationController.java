@@ -4,7 +4,11 @@ import com.travelintellij.quotation.dto.EmailMessageVO;
 import com.travelintellij.quotation.dto.ManualFlightQuotationVO;
 import com.travelintellij.quotation.dto.QuotationEmailSendingRequestVO;
 import com.travelintellij.quotation.entity.*;
+import com.travelintellij.quotation.repository.ItineraryDayRepository;
+import com.travelintellij.quotation.repository.ItineraryMasterRepository;
+import com.travelintellij.quotation.repository.TI_Quotations_Repository;
 import com.travelintellij.quotation.service.impl.EmailServiceImpl;
+import com.travelintellij.quotation.service.impl.ItineraryServiceImpl;
 import com.travelintellij.quotation.service.impl.QuotationGenerateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +18,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,7 +37,16 @@ public class QuotationController {
     private String quotationRootDirectory;
 
     @Autowired
+    ItineraryServiceImpl itineraryService;
+
+    @Autowired
     EmailServiceImpl emailService;
+
+    @Autowired
+    private ItineraryMasterRepository itineraryMasterRepository;
+
+    @Autowired
+    private ItineraryDayRepository itineraryDayRepository;
 
     @RequestMapping("generatePdf")
     public String generatePdf(){
@@ -174,5 +186,18 @@ public class QuotationController {
        return manualFlightQuotationVOArray;
     }
 
+    @PostMapping("/update_quotation_itinerary")
+    public String updateQuotationItinerary(@RequestParam Long quotationId, @RequestParam Long itineraryId) {
+        Optional<Tg_Quotation_Recorder_Entity> qOpt = quotationRepository.findById(quotationId);
+        if (qOpt.isPresent()) {
+            Tg_Quotation_Recorder_Entity quotation = qOpt.get();
+            quotation.setItineraryId(itineraryId);
+            quotationRepository.save(quotation);
+            return "SUCCESS";
+        }
+        return "NOT_FOUND";
+    }
 
+    @Autowired
+    private TI_Quotations_Repository quotationRepository;
 }

@@ -163,9 +163,16 @@
             <span th:if="${quotationRecorderDTO.others}">
                  Others |
             </span>
+            <span th:if="${itineraryLinked}">
+                 Itinerary |
+            </span>
         </td>
     </tr>
     </table>
+<span th:if="${itineraryLinked}">
+    <br/><br/>
+    <div th:insert="_quotationItinerary :: _quotationItinerary">  </div>
+</span>
 
 <span th:if="${quotationRecorderDTO.flight}">
     <br/><br/>

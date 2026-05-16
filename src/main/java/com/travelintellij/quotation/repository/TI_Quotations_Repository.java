@@ -14,6 +14,6 @@ public interface TI_Quotations_Repository extends JpaRepository<Tg_Quotation_Rec
 	@Query("SELECT COALESCE(Max(version),0) FROM Tg_Quotation_Recorder_Entity a where a.leadEntity.leadId=?1")
 	int max_QuotationVersionGenerated(long leadId); 
 	
-	
-	
+	@Query("SELECT q FROM Tg_Quotation_Recorder_Entity q WHERE q.itineraryId = :itineraryId")
+	java.util.List<Tg_Quotation_Recorder_Entity> findByItineraryId(@org.springframework.data.repository.query.Param("itineraryId") Long itineraryId);
 } 

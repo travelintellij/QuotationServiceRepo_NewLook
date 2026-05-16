@@ -40,7 +40,10 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
+@Transactional
 public class QuotationGenerateServiceImpl  {
     private Logger logger = LoggerFactory.getLogger(QuotationGenerateServiceImpl.class);
 
@@ -58,6 +61,9 @@ public class QuotationGenerateServiceImpl  {
 
     @Autowired
     TI_Quotations_Repository quotationRepository;
+
+    @Autowired
+    private com.travelintellij.quotation.repository.ItineraryMasterRepository itineraryMasterRepository;
 
     @Value("${B2B_PARTNER_SERVICE}")
     private String B2B_PARTNER_SERVICE;
@@ -89,6 +95,10 @@ public class QuotationGenerateServiceImpl  {
         Context context = new Context();
         context.setVariables(data);
         String htmlContent = templateEngine.process(templateName, context);
+        // Sanitize ampersands for XML/XHTML compliance in ITextRenderer
+        if (htmlContent != null) {
+            htmlContent = htmlContent.replaceAll("&(?![a-zA-Z0-9#]+;)", "&amp;");
+        }
         try {
 
             System.out.println("Quotation File PAth is " + quotationFilePath);
@@ -99,6 +109,11 @@ public class QuotationGenerateServiceImpl  {
                 Files.createDirectories(path);
             }
 
+            File existingFile = new File(quotationFilePath + File.separator + pdfFileName);
+            if (existingFile.exists()) {
+                existingFile.delete();
+                System.out.println("DEBUG: Existing PDF deleted to ensure fresh generation.");
+            }
             FileOutputStream fileOutputStream = new FileOutputStream(quotationFilePath + File.separator + pdfFileName);
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
@@ -210,6 +225,9 @@ public class QuotationGenerateServiceImpl  {
         prepareVisaQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareInsuranceQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareOthersQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
+        System.out.println("DEBUG: Quotation ID: " + quotationEntity.getQuotationId() + " has Itinerary ID: " + quotationEntity.getItineraryId());
+        quotationInputDataMap.put("quotationEntityStr", quotationEntity.toString());
+        prepareItineraryQuotationDetails(quotationEntity, quotationInputDataMap);
         //prepareCostingForQuotationDetails(manualConfigurationEntity,quotationInputDataMap);
         quotationInputDataMap.put("COSTING_OBJ", costingDetails);
         String quotationFileName = "Q-"+ quotationEntity.getLeadEntity().getLeadId() + "-" + quotationEntity.getQuotationId() + "-" +  quotationEntity.getVersion() + ".pdf";
@@ -455,6 +473,39 @@ public class QuotationGenerateServiceImpl  {
         quotationInputDataMap.put("clientName",clientDTO.getClientName());
         quotationInputDataMap.put("cityFromName",srcCityDTO.getCityName());
         quotationInputDataMap.put("destinationName",dstCityDTO.getCityName());
+    }
+
+    private void prepareItineraryQuotationDetails(Tg_Quotation_Recorder_Entity quotationEntity, Map<String, Object> quotationInputDataMap) {
+        Long itineraryId = quotationEntity.getItineraryId();
+        System.out.println("DEBUG: Starting prepareItineraryQuotationDetails. Entity Itinerary ID: " + itineraryId);
+
+        if (itineraryId == null || itineraryId == 0) {
+            TgQuotationRecorderVO vo = (TgQuotationRecorderVO) quotationInputDataMap.get("quotationRecorderDTO");
+            if (vo != null) {
+                itineraryId = vo.getItineraryId();
+                System.out.println("DEBUG: Fallback to VO Itinerary ID: " + itineraryId);
+            }
+        }
+
+        if (itineraryId != null && itineraryId > 0) {
+            System.out.println("DEBUG: Fetching Itinerary from Repository for ID: " + itineraryId);
+            System.out.println("DEBUG: FETCHING ITINERARY FOR PDF. ID=" + itineraryId);
+            Optional<ItineraryMasterEntity> itineraryOpt = itineraryMasterRepository.findById(itineraryId);
+            if (itineraryOpt.isPresent()) {
+                ItineraryMasterEntity itinerary = itineraryOpt.get();
+                System.out.println("DEBUG: Successfully found Itinerary: " + itinerary.getTitle());
+                if (itinerary.getDays() != null) {
+                    System.out.println("DEBUG: Itinerary has " + itinerary.getDays().size() + " days.");
+                }
+                quotationInputDataMap.put("ITINERARY_OBJ", itinerary);
+                quotationInputDataMap.put("ITINERARY_DAYS", new ArrayList<>(itinerary.getDays()));
+                quotationInputDataMap.put("itineraryLinked", true);
+            } else {
+                System.out.println("DEBUG: Itinerary record NOT FOUND in database for ID: " + itineraryId);
+            }
+        } else {
+            System.out.println("DEBUG: No valid Itinerary ID found for this quotation.");
+        }
     }
 
 

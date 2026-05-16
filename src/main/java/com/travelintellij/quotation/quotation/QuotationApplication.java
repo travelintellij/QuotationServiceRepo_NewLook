@@ -23,10 +23,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaAuditing
 @SpringBootApplication(exclude= {SecurityAutoConfiguration.class })
-@EnableJpaRepositories(basePackages = {"com.travelintellij.*"})
+@EnableJpaRepositories(basePackages = {"com.travelintellij"})
 @EnableConfigurationProperties
-@ComponentScan(basePackages="com.travelintellij.*")
-@EntityScan(basePackages ={"com.travelintellij.*", "com.travelintellij.request.*"})
+@ComponentScan(basePackages="com.travelintellij")
+@EntityScan(basePackages ={"com.travelintellij", "com.travelintellij.request"})
 public class QuotationApplication {
 
 	public static void main(String[] args) {
