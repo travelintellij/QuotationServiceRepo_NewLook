@@ -203,18 +203,32 @@ public class QuotationGenerateServiceImpl  {
         quotationInputDataMap.put("b2bPartnersDTO",b2bPartnersDTO);
         String logoFileName=b2bPartnersDTO.getPartnerShortName()+".jpg";
         File logoFile=new File(LOGO_FILE_PATH+"/"+logoFileName);
-        String logFileAbsPath;
-        if(logoFile.exists()) {
-            logFileAbsPath = logoFile.toURI().toString();
-        }
-        else{
+        if(!logoFile.exists()) {
             logoFileName=b2bPartnersDTO.getPartnerShortName()+".png";
             logoFile=new File(LOGO_FILE_PATH+"/"+logoFileName);
-            logFileAbsPath = logoFile.toURI().toString();
         }
-        //String logFileAbsPath =LOGO_FILE_PATH+"/"+logoFileName;
+        String logFileAbsPath = "";
+        try {
+            if(logoFile.exists()) {
+                byte[] logoBytes = java.nio.file.Files.readAllBytes(logoFile.toPath());
+                String base64Logo = java.util.Base64.getEncoder().encodeToString(logoBytes);
+                String mimeType = logoFileName.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg";
+                logFileAbsPath = "data:" + mimeType + ";base64," + base64Logo;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         quotationInputDataMap.put("LOGO_FILE_ABS_PATH",logFileAbsPath);
         quotationInputDataMap.put("LOGO_FILE_NAME",logoFileName);
+
+        try {
+            org.springframework.core.io.ClassPathResource imgFile = new org.springframework.core.io.ClassPathResource("images/quotation_print_bg.png");
+            byte[] bytes = org.springframework.util.StreamUtils.copyToByteArray(imgFile.getInputStream());
+            String base64Image = java.util.Base64.getEncoder().encodeToString(bytes);
+            quotationInputDataMap.put("bgImageBase64", "data:image/png;base64," + base64Image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //System.out.println("Logo File Path is " + LOGO_BASE_PATH+b2bPartnersDTO.getPartnerShortName()+".jpg");
         prepareFlightQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareHotelQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);

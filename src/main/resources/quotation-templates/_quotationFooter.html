@@ -1,66 +1,81 @@
-<div class="header" th:fragment="_quotationFooter" th:style="${manualConfigurationEntity.tncStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Terms and Conditions</p>
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="_quotationFooter" th:style="${manualConfigurationEntity.tncStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <table style="width:100%; border-collapse: collapse; margin-bottom: 0;">
+        <tr>
+            <th style="background-color:#0284c7; color:white; text-align:center; padding: 6px; font-size: 10pt; text-transform: uppercase;">Terms and Conditions</th>
+        </tr>
+    </table>
 </div>
 
-<div th:fragment="_quotationFooter2" >
-
-    <table class="services">
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="_quotationFooter2" >
+    <style>
+        .tnc-table { border: none !important; width: 100%; font-family: Arial, sans-serif; font-size: 8pt; margin-top: 0; background-color: transparent !important; }
+        .tnc-table tr { background-color: transparent !important; }
+        .tnc-table td { border: none !important; padding: 0px 5px !important; text-align: left; line-height: 1.1; background-color: transparent !important; }
+    </style>
+    <table class="tnc-table">
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                <b>All International Travels:</b>  If the total foreign remittance in the current financial year is less than ₹7 lakhs, a Tax Collected at Source (TCS) rate of 7% will apply. For remittances exceeding ₹7 lakhs, the TCS rate will be 20%.
-
-                Travelers can claim or adjust the TCS amount with the tax authorities while filing their income tax return.
+            <td>
+                * <b> Tax Collected at Source (TCS) - International Travel</b><br/>As per prevailing Government of India regulations, applicable Tax Collected at Source (TCS) on international travel packages shall be charged extra as applicable at the time of booking/payment. The applicable TCS amount can be claimed or adjusted by the traveler while filing their Income Tax Return (ITR), subject to prevailing tax regulations.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                TCS-Cancellation Once TCS deducted can not be refunded in any case as it will be deposited by us even if in case of cancellation. Guest need to settle TCS directly with the income tax department.
-            </td>
-        </tr>
-
-        <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                All timings (Flights, Hotels, Transfers are tentative. Please refer vouchers confirmation and flight tickets etc. for accurate details. )
+            <td>
+                * <b> TCS Refund Policy</b><br/>Any TCS amount collected and deposited with the government authorities cannot be refunded by us under any circumstances, including cancellation cases. Travelers may claim eligible adjustments/refunds directly through the Income Tax filing process.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                <b>Bookings</b> - We are not holding any booking and all fares are dynamic and keeps changing. Till the time we officially confirm your booking or send confirmation vouchers, price is subject to change.
+            <td>
+                * <b> Booking Confirmation & Pricing</b><br/>All prices, hotel rates, airfare, transportation charges, and package costs are dynamic and subject to change until the booking is officially confirmed and confirmation vouchers/tickets are issued. No booking is considered confirmed unless explicitly communicated by us.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                <b>Hotel</b>- We are not responsible for any hotel quality products or services not rendered by hotel or lack in services or not meeting upto your expecations. We are just a mediator and based on our experience, we can recommend but we dont guarantee.
+            <td>
+                * <b> Flight, Hotel & Transfer Timings</b><br/>All schedules, timings, and operational details shared at quotation stage are tentative and subject to change. Guests are requested to refer to final vouchers, tickets, and confirmations for accurate details.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                <b>Pricing</b>-All international travel pricing may change based on the fluctuating in currency pricing also.
+            <td>
+                * <b> Hotel Responsibility Disclaimer</b><br/>Hotels, airlines, transport providers, activity operators, and other service providers operate independently. While we carefully select suppliers and provide recommendations based on experience, we shall not be responsible for service deficiencies, quality issues, operational changes, overbooking situations, or services not meeting personal expectations.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                All <b>Credit Card</b> Payment will attract additional payment gateway charge of 2.5% of the billing amount.
+            <td>
+                * <b> Currency Fluctuation (International Travel)</b><br/>International package pricing may vary due to fluctuations in foreign exchange rates, supplier revisions, taxes, fuel surcharges, or government regulations until final confirmation.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                <b>Visa</b> We are not governing body but just a facilitator and we have no control in Visa. Visa is a sole discretion of embassy granting visa. All applicable penalties in case of Visa rejection will be chargeable to the guest.
+            <td>
+                * <b> Payment Charges</b><br/>Payments made through credit cards may attract additional payment gateway charges, banking charges, convenience fees, or merchant charges as applicable.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                In case of flight cancellation due to whatsoever reasons including cancellation of flight operation by the concerned airlines, refund of air ticket fare will be processed subject to "cancellation process charges" at the rate of Rs. 350/ and Rs. 600/ for domestic flight and international flight per person per sector respectively.
+            <td>
+                * <b> Visa Disclaimer</b><br/>Visa approval, rejection, processing timelines, documentation requirements, or entry permissions are solely at the discretion of the respective embassy/consulate/immigration authorities. We act only as a facilitator and cannot guarantee visa issuance. Any cancellation charges, supplier penalties, or losses arising due to visa rejection shall be borne by the traveler.
             </td>
         </tr>
         <tr style="page-break-inside: avoid">
-            <td style="text-align:left;">
-                It may be noted the refund will be as per the airlines policy of cancellation, but it will be attracting "cancellation process charges" as stated above. Nett amount refunded will be the refund received by us from airline/supplier minus cancellation processing charge as mentioned above.
+            <td>
+                * <b> Flight Cancellation & Refund Processing Charges</b><br/>In case of flight cancellations, modifications, partial utilization, no-show situations, or supplier cancellations, refunds (if applicable) shall be processed as per airline/supplier policy.<br/>In addition to airline/supplier cancellation charges, refund processing charges shall apply as below:<br/>• Domestic Flights: Rs 300 (plus gst) per person per sector<br/>• International Flights: Rs 500(plus gst) per person per sector<br/>Final refund payable shall be calculated as:<br/>Refund received from airline/supplier<br/>LESS applicable processing charges<br/>= Net Refund Payable
+            </td>
+        </tr>
+        <tr style="page-break-inside: avoid">
+            <td>
+                * <b> Force Majeure</b><br/>We shall not be liable for delays, cancellations, losses, itinerary changes, or additional expenses arising due to circumstances beyond our control including but not limited to natural disasters, weather conditions, political disturbances, strikes, pandemics, airline operational issues, government restrictions, or other unforeseen events.
+            </td>
+        </tr>
+        <tr style="page-break-inside: avoid">
+            <td>
+                * <b> Traveler Responsibility</b><br/>Guests are responsible for ensuring validity of passports, visas, travel documents, vaccination requirements, permits, and compliance with destination-specific regulations.
+            </td>
+        </tr>
+        <tr style="page-break-inside: avoid">
+            <td>
+                * <b> Acceptance of Terms</b><br/>Payment towards booking shall be considered acceptance of all terms, conditions, cancellation policies, and supplier rules applicable to the booking.
             </td>
         </tr>
     </table>
-    <br/><br/>
-    <span th:if="${manualConfigurationEntity.showBankAccounts}">
+    <br/>
+    <div th:if="${manualConfigurationEntity.showBankAccounts}">
 
         <table class="services" style="page-break-inside: avoid">
             <caption>Our Bank Account</caption>
@@ -78,7 +93,7 @@
             <th colspan="3">UPI Payment </th><td colspan="3" style="text-align:center;">[[${b2bPartnersDTO.upiId}]]</td>
         </tr>
         </table>
-    </span>
+    </div>
 </div>
 
 
