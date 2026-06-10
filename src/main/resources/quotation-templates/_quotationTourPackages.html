@@ -1,5 +1,5 @@
-<div class="header" th:fragment="_quotationTourPackages" th:style="${manualConfigurationEntity.packagesStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Tour Packages Section</p>
+<div class="section-title" th:fragment="_quotationTourPackages" th:style="${manualConfigurationEntity.packagesStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Tour Packages Section</p>
 </div>
 
 <div th:fragment="_quotationTourPackages2" >
@@ -9,14 +9,14 @@
             <tr><td colspan="8">Package [[${iterator.index + 1 }]]</td></tr>
         </span>
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#45B39D;">City</th>
-            <th style="background-color:#45B39D;width:15%;">Package Name</th>
-            <th style="background-color:#45B39D;width:10%;">Start Date</th>
-            <th style="background-color:#45B39D;width:10%;">End Date</th>
-            <th style="background-color:#45B39D;">Adult</th>
-            <th style="background-color:#45B39D;">Children</th>
-            <th style="background-color:#45B39D;">Infant</th>
-            <th style="background-color:#45B39D;width:10%;">Flights Included</th>
+            <th style="">City</th>
+            <th style="width:15%;">Package Name</th>
+            <th style="width:10%;">Start Date</th>
+            <th style="width:10%;">End Date</th>
+            <th style="">Adult</th>
+            <th style="">Children</th>
+            <th style="">Infant</th>
+            <th style="width:10%;">Flights Included</th>
         </tr>
 
         <tr style="page-break-inside: avoid">
@@ -29,51 +29,69 @@
             <td th:text="${tourPackagesObj.infant}"> </td>
             <td th:text="${tourPackagesObj.flightIncluded}"> </td>
         </tr>
+       </table>
+
        <span th:if="${not #strings.isEmpty(tourPackagesObj.packageDescription)}">
+       <table class="services">
         <tr>
-            <th style="background-color:#45B39D;text-align:center;page-break-inside: avoid;width:70%;" colspan="8">Package Description</th>
+            <th style="text-align:center;page-break-inside: avoid;" colspan="8">Package Description</th>
         </tr>
         <tr>
             <td style="text-align:left;white-space: pre-line" colspan="8" >[[${tourPackagesObj.packageDescription}]]</td>
         </tr>
+       </table>
        </span>
+
        <span th:if="${not #strings.isEmpty(tourPackagesObj.inclusions)}">
+       <table class="services">
            <tr>
-            <th style="background-color:#27AE60;text-align:center;page-break-inside: avoid;" colspan="8">Inclusions</th>
+            <th style="text-align:center;page-break-inside: avoid;" colspan="8">Inclusions</th>
         </tr>
         <tr style="page-break-inside: avoid;">
-            <td style="text-align:left;width:50%;white-space: pre-line" colspan="8" >[[${tourPackagesObj.inclusions}]]</td>
+            <td style="text-align:left;white-space: pre-line" colspan="8" >[[${tourPackagesObj.inclusions}]]</td>
         </tr>
+       </table>
        </span>
+
        <span th:if="${not #strings.isEmpty(tourPackagesObj.exclusions)}">
+       <table class="services">
         <tr>
-            <th style="background-color:#CD5C5C;text-align:center;page-break-inside: avoid;" colspan="8">Exclusions</th>
+            <th style="text-align:center;page-break-inside: avoid;" colspan="8">Exclusions</th>
         </tr>
         <tr style="page-break-inside: avoid;">
-            <td style="text-align:left;width:50%;white-space: pre-line" colspan="8" >[[${tourPackagesObj.exclusions}]]</td>
+            <td style="text-align:left;white-space: pre-line" colspan="8" >[[${tourPackagesObj.exclusions}]]</td>
         </tr>
+       </table>
        </span>
-        <tr th:if="${not #strings.isEmpty(tourPackagesObj.cancellationPolicy)}" style="page-break-inside: avoid;">
-            <th style="background-color:#CD5C5C;text-align:center;page-break-inside: avoid;" colspan="8">Land Package Cancellation Policy</th>
+
+       <span th:if="${not #strings.isEmpty(tourPackagesObj.cancellationPolicy)}">
+       <table class="services">
+        <tr style="page-break-inside: avoid;">
+            <th style="text-align:center;page-break-inside: avoid;" colspan="8">Land Package Cancellation Policy</th>
         </tr>
-        <tr th:if="${not #strings.isEmpty(tourPackagesObj.cancellationPolicy)}" style="page-break-inside: avoid;">
+        <tr style="page-break-inside: avoid;">
             <td colspan="8" style="text-align:left;white-space: pre-line">[[${tourPackagesObj.cancellationPolicy}]]</td>
         </tr>
+       </table>
+       </span>
 
-        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
-            <th style="background-color:#45B39D;text-align:center;page-break-inside: avoid;" colspan="8">Remarks</th>
+       <span th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}">
+       <table class="services">
+        <tr style="page-break-inside: avoid;">
+            <th style="text-align:center;page-break-inside: avoid;" colspan="8">Remarks</th>
         </tr>
-        <tr th:if="${not #strings.isEmpty(tourPackagesObj.remarks)}" style="page-break-inside: avoid;">
+        <tr style="page-break-inside: avoid;">
             <td colspan="8" style="text-align:left;white-space: pre-line">[[${tourPackagesObj.remarks}]]</td>
         </tr>
        </table>
+       </span>
         </th:block>
 
     <br/>
     <span th:if="${manualConfigurationEntity.packageCancellationPolicyDisplay } ">
         <table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#45B39D;">Other Important Information</th>
+                <th style="">Other Important Information</th>
             </tr>
             <tr style="page-break-inside: avoid">
                 <td style="text-align:left;"><pre>[[${manualConfigurationEntity.packageCancellationPolicy}]]</pre></td>

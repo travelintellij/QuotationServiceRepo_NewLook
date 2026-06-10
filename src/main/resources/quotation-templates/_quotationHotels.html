@@ -1,23 +1,23 @@
-<div class="header" th:fragment="_quotationHotels" th:style="${manualConfigurationEntity.hotelStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Hotels</p>
+<div class="section-title" th:fragment="_quotationHotels" th:style="${manualConfigurationEntity.hotelStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Hotels</p>
 </div>
 
 <div th:fragment="_quotationHotels2" >
     <th:block th:each="hotelOption,iterator: ${mapHotelOptionsList}" >
+        <div class="section-title" th:if="${#maps.size(mapHotelOptionsList)} > 1">
+            <p>Hotel Option [[${hotelOption.key }]]</p>
+        </div>
         <table class="services" style="page-break-inside: avoid">
-            <span th:if="${#maps.size(mapHotelOptionsList)} > 1">
-                <caption> Hotel Option [[${hotelOption.key }]]</caption>
-            </span>
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#47C3FD;width:10%;">City</th>
-                <th style="background-color:#47C3FD;width:23%;">Hotel Name</th>
-                <th style="background-color:#47C3FD;width:13%;">Room Type</th>
-                <th style="background-color:#47C3FD;width:10%;">Check In</th>
-                <th style="background-color:#47C3FD;width:10%;">Check Out</th>
-                <th style="background-color:#47C3FD;width:10%;">Meal</th>
-                <th style="background-color:#47C3FD;width:10%;">Guests</th>
-                <th style="background-color:#47C3FD;width:7%;">E.Bed</th>
-                <th style="background-color:#47C3FD;width:7%;">Rooms</th>
+                <th style="width:10%;">City</th>
+                <th style="width:23%;">Hotel Name</th>
+                <th style="width:13%;">Room Type</th>
+                <th style="width:10%;">Check In</th>
+                <th style="width:10%;">Check Out</th>
+                <th style="width:10%;">Meal</th>
+                <th style="width:10%;">Guests</th>
+                <th style="width:7%;">E.Bed</th>
+                <th style="width:7%;">Rooms</th>
             </tr>
 
             <th:block th:each="hotelObj : ${hotelOption.value}" >
@@ -42,7 +42,7 @@
     <span th:if="${manualConfigurationEntity.hotelCancellationPolicyDisplay } ">
         <table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#47C3FD;">Hotel Remarks</th>
+                <th style="">Hotel Remarks</th>
             </tr>
             <tr style="page-break-inside: avoid">
                 <td style="text-align:left;"><pre>[[${manualConfigurationEntity.hotelCancellationPolicy}]]</pre></td>

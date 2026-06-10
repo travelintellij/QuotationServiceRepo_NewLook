@@ -1,99 +1,70 @@
-<div xmlns:th="http://www.thymeleaf.org" th:fragment="_quotationFooter" th:style="${manualConfigurationEntity.tncStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <table style="width:100%; border-collapse: collapse; margin-bottom: 0;">
-        <tr>
-            <th style="background-color:#0284c7; color:white; text-align:center; padding: 6px; font-size: 10pt; text-transform: uppercase;">Terms and Conditions</th>
-        </tr>
-    </table>
+<div class="section-title" th:fragment="_quotationFooter"
+     th:style="${manualConfigurationEntity.tncStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} "
+     xmlns:th="http://www.thymeleaf.org">
+    <p>Terms and Conditions</p>
 </div>
 
-<div xmlns:th="http://www.thymeleaf.org" th:fragment="_quotationFooter2" >
-    <style>
-        .tnc-table { border: none !important; width: 100%; font-family: Arial, sans-serif; font-size: 8pt; margin-top: 0; background-color: transparent !important; }
-        .tnc-table tr { background-color: transparent !important; }
-        .tnc-table td { border: none !important; padding: 0px 5px !important; text-align: left; line-height: 1.1; background-color: transparent !important; }
-    </style>
-    <table class="tnc-table">
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Tax Collected at Source (TCS) - International Travel</b><br/>As per prevailing Government of India regulations, applicable Tax Collected at Source (TCS) on international travel packages shall be charged extra as applicable at the time of booking/payment. The applicable TCS amount can be claimed or adjusted by the traveler while filing their Income Tax Return (ITR), subject to prevailing tax regulations.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> TCS Refund Policy</b><br/>Any TCS amount collected and deposited with the government authorities cannot be refunded by us under any circumstances, including cancellation cases. Travelers may claim eligible adjustments/refunds directly through the Income Tax filing process.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Booking Confirmation & Pricing</b><br/>All prices, hotel rates, airfare, transportation charges, and package costs are dynamic and subject to change until the booking is officially confirmed and confirmation vouchers/tickets are issued. No booking is considered confirmed unless explicitly communicated by us.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Flight, Hotel & Transfer Timings</b><br/>All schedules, timings, and operational details shared at quotation stage are tentative and subject to change. Guests are requested to refer to final vouchers, tickets, and confirmations for accurate details.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Hotel Responsibility Disclaimer</b><br/>Hotels, airlines, transport providers, activity operators, and other service providers operate independently. While we carefully select suppliers and provide recommendations based on experience, we shall not be responsible for service deficiencies, quality issues, operational changes, overbooking situations, or services not meeting personal expectations.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Currency Fluctuation (International Travel)</b><br/>International package pricing may vary due to fluctuations in foreign exchange rates, supplier revisions, taxes, fuel surcharges, or government regulations until final confirmation.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Payment Charges</b><br/>Payments made through credit cards may attract additional payment gateway charges, banking charges, convenience fees, or merchant charges as applicable.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Visa Disclaimer</b><br/>Visa approval, rejection, processing timelines, documentation requirements, or entry permissions are solely at the discretion of the respective embassy/consulate/immigration authorities. We act only as a facilitator and cannot guarantee visa issuance. Any cancellation charges, supplier penalties, or losses arising due to visa rejection shall be borne by the traveler.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Flight Cancellation & Refund Processing Charges</b><br/>In case of flight cancellations, modifications, partial utilization, no-show situations, or supplier cancellations, refunds (if applicable) shall be processed as per airline/supplier policy.<br/>In addition to airline/supplier cancellation charges, refund processing charges shall apply as below:<br/>• Domestic Flights: Rs 300 (plus gst) per person per sector<br/>• International Flights: Rs 500(plus gst) per person per sector<br/>Final refund payable shall be calculated as:<br/>Refund received from airline/supplier<br/>LESS applicable processing charges<br/>= Net Refund Payable
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Force Majeure</b><br/>We shall not be liable for delays, cancellations, losses, itinerary changes, or additional expenses arising due to circumstances beyond our control including but not limited to natural disasters, weather conditions, political disturbances, strikes, pandemics, airline operational issues, government restrictions, or other unforeseen events.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Traveler Responsibility</b><br/>Guests are responsible for ensuring validity of passports, visas, travel documents, vaccination requirements, permits, and compliance with destination-specific regulations.
-            </td>
-        </tr>
-        <tr style="page-break-inside: avoid">
-            <td>
-                * <b> Acceptance of Terms</b><br/>Payment towards booking shall be considered acceptance of all terms, conditions, cancellation policies, and supplier rules applicable to the booking.
-            </td>
-        </tr>
-    </table>
+<div th:fragment="_quotationFooter2" xmlns:th="http://www.thymeleaf.org">
+
+    <ul style="margin: 0; padding-left: 20px; font-size: 8pt; font-family: Arial, Helvetica, sans-serif; list-style-type: disc;">
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Tax Collected at Source (TCS) – International Travel</b><br/>As per prevailing Government of India regulations, applicable Tax Collected at Source (TCS) on international travel packages shall be charged extra as applicable at the time of booking/payment. The applicable TCS amount can be claimed or adjusted by the traveler while filing their Income Tax Return (ITR), subject to prevailing tax regulations.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>TCS Refund Policy</b><br/>Any TCS amount collected and deposited with the government authorities cannot be refunded by us under any circumstances, including cancellation cases. Travelers may claim eligible adjustments/refunds directly through the Income Tax filing process.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Booking Confirmation &amp; Pricing</b><br/>All prices, hotel rates, airfare, transportation charges, and package costs are dynamic and subject to change until the booking is officially confirmed and confirmation vouchers/tickets are issued. No booking is considered confirmed unless explicitly communicated by us.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Flight, Hotel &amp; Transfer Timings</b><br/>All schedules, timings, and operational details shared at quotation stage are tentative and subject to change. Guests are requested to refer to final vouchers, tickets, and confirmations for accurate details.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Hotel Responsibility Disclaimer</b><br/>Hotels, airlines, transport providers, activity operators, and other service providers operate independently. While we carefully select suppliers and provide recommendations based on experience, we shall not be responsible for service deficiencies, quality issues, operational changes, overbooking situations, or services not meeting personal expectations.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Currency Fluctuation (International Travel)</b><br/>International package pricing may vary due to fluctuations in foreign exchange rates, supplier revisions, taxes, fuel surcharges, or government regulations until final confirmation.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Payment Charges</b><br/>Payments made through credit cards may attract additional payment gateway charges, banking charges, convenience fees, or merchant charges as applicable.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Visa Disclaimer</b><br/>Visa approval, rejection, processing timelines, documentation requirements, or entry permissions are solely at the discretion of the respective embassy/consulate/immigration authorities. We act only as a facilitator and cannot guarantee visa issuance. Any cancellation charges, supplier penalties, or losses arising due to visa rejection shall be borne by the traveler.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Flight Cancellation &amp; Refund Processing Charges</b><br/>In case of flight cancellations, modifications, partial utilization, no-show situations, or supplier cancellations, refunds (if applicable) shall be processed as per airline/supplier policy.<br/>In addition to airline/supplier cancellation charges, refund processing charges shall apply as below:<br/>• Domestic Flights: ₹300 (plus gst) per person per sector<br/>• International Flights: ₹500 (plus gst) per person per sector<br/>Final refund payable shall be calculated as: Refund received from airline/supplier LESS applicable processing charges = Net Refund Payable
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Force Majeure</b><br/>We shall not be liable for delays, cancellations, losses, itinerary changes, or additional expenses arising due to circumstances beyond our control including but not limited to natural disasters, weather conditions, political disturbances, strikes, pandemics, airline operational issues, government restrictions, or other unforeseen events.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Traveler Responsibility</b><br/>Guests are responsible for ensuring validity of passports, visas, travel documents, vaccination requirements, permits, and compliance with destination-specific regulations.
+        </li>
+        <li style="page-break-inside: avoid; padding-bottom: 5px;">
+            <b>Acceptance of Terms</b><br/>Payment towards booking shall be considered acceptance of all terms, conditions, cancellation policies, and supplier rules applicable to the booking.
+        </li>
+    </ul>
     <br/>
-    <div th:if="${manualConfigurationEntity.showBankAccounts}">
-
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Our Bank Account</caption>
-        <tr><th>Bank Name</th><th>Beneficiary Name</th><th>A/c No.</th><th>IFSC Code</th><th>Branch</th></tr>
-            <tr>
-            <td>[[${b2bPartnersDTO.bankName}]]</td>
-            <td>[[${b2bPartnersDTO.beneficiaryName}]]</td>
-            <td>[[${b2bPartnersDTO.bankAccountNumber}]]</td>
-            <td>[[${b2bPartnersDTO.bankIFSCCode}]]</td>
-            <td>[[${b2bPartnersDTO.bankBranch}]]</td>
-        </tr>
-        </table>
-        <table class="services">
-        <tr>
-            <th colspan="3">UPI Payment </th><td colspan="3" style="text-align:center;">[[${b2bPartnersDTO.upiId}]]</td>
-        </tr>
-        </table>
-    </div>
+    <span th:if="${manualConfigurationEntity.showBankAccounts and b2bPartnersDTO != null}">
+        <th:block th:if="${(b2bPartnersDTO.bankAccountNumber != null and b2bPartnersDTO.bankAccountNumber != '') or (b2bPartnersDTO.bankName != null and b2bPartnersDTO.bankName != '')}">
+            <div class="section-title"><p>Our Bank Account</p></div>
+            <table class="services" style="page-break-inside: avoid">
+                <tr><th>Bank Name</th><th>Beneficiary Name</th><th>A/c No.</th><th>IFSC Code</th><th>Branch</th></tr>
+                <tr>
+                    <td>[[${b2bPartnersDTO.bankName}]]</td>
+                    <td>[[${b2bPartnersDTO.beneficiaryName}]]</td>
+                    <td>[[${b2bPartnersDTO.bankAccountNumber}]]</td>
+                    <td>[[${b2bPartnersDTO.bankIFSCCode}]]</td>
+                    <td>[[${b2bPartnersDTO.bankBranch}]]</td>
+                </tr>
+            </table>
+        </th:block>
+        <th:block th:if="${b2bPartnersDTO.upiId != null and b2bPartnersDTO.upiId != ''}">
+            <table class="services">
+                <tr>
+                    <th colspan="3">UPI Payment </th><td colspan="3" style="text-align:center;">[[${b2bPartnersDTO.upiId}]]</td>
+                </tr>
+            </table>
+        </th:block>
+    </span>
 </div>
-
-

@@ -1,15 +1,15 @@
-<div class="header" th:fragment="_quotationVisa" th:style="${manualConfigurationEntity.visaStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Visa Section</p>
+<div class="section-title" th:fragment="_quotationVisa" th:style="${manualConfigurationEntity.visaStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Visa Section</p>
 </div>
 
 <div th:fragment="_quotationVisa2" >
     <table class="services" style="page-break-inside: avoid">
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#921A0E;">Visa Country</th>
-            <th style="background-color:#921A0E;">Consulate</th>
-            <th style="background-color:#921A0E;">Adults</th>
-            <th style="background-color:#921A0E;">Children</th>
-            <th style="background-color:#921A0E;">Infants</th>
+            <th style="">Visa Country</th>
+            <th style="">Consulate</th>
+            <th style="">Adults</th>
+            <th style="">Children</th>
+            <th style="">Infants</th>
         </tr>
 
         <th:block th:each="visaObj : ${VisaVOList}" >
@@ -29,7 +29,7 @@
     <span th:if="${manualConfigurationEntity.visaCancellationPolicyDisplay } ">
         <table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#921A0E;">Visa Remarks</th>
+                <th style="">Visa Remarks</th>
             </tr>
             <tr style="page-break-inside: avoid">
                 <td style="text-align:left;"><pre>[[${manualConfigurationEntity.visaCancellationPolicy}]]</pre></td>

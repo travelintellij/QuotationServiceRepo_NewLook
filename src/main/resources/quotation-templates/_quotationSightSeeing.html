@@ -1,17 +1,17 @@
-<div class="header" th:fragment="_quotationSightSeeing" th:style="${manualConfigurationEntity.sightSeeingStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Sight Seeing</p>
+<div class="section-title" th:fragment="_quotationSightSeeing" th:style="${manualConfigurationEntity.sightSeeingStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Sight Seeing</p>
 </div>
 
 <div th:fragment="_quotationSightSeeing2" >
     <table class="services" style="page-break-inside: avoid">
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#1C32D4;">City</th>
-            <th style="background-color:#1C32D4;">Sight Seeing Name</th>
-            <th style="background-color:#1C32D4;">Transfer Type</th>
-            <th style="background-color:#1C32D4;">Tentative Date</th>
-            <th style="background-color:#1C32D4;">Adults </th>
-            <th style="background-color:#1C32D4;">Children</th>
-            <th style="background-color:#1C32D4;">Infants</th>
+            <th style="">City</th>
+            <th style="">Sight Seeing Name</th>
+            <th style="">Transfer Type</th>
+            <th style="">Tentative Date</th>
+            <th style="">Adults </th>
+            <th style="">Children</th>
+            <th style="">Infants</th>
         </tr>
 
         <th:block th:each="sightSeeingObj : ${SightSeeingVOList}" >
@@ -33,7 +33,7 @@
     <span th:if="${manualConfigurationEntity.sightSeeingCancellationPolicyDisplay } ">
         <table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#1C32D4;">Sight Seeing Remarks</th>
+                <th style="">Sight Seeing Remarks</th>
             </tr>
             <tr style="page-break-inside: avoid">
                 <td style="text-align:left;"><pre>[[${manualConfigurationEntity.sightSeeingCancellationPolicy}]]</pre></td>

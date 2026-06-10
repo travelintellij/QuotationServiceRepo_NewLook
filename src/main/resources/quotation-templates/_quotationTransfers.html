@@ -1,19 +1,19 @@
-<div class="header" th:fragment="_quotationTransfers" th:style="${manualConfigurationEntity.transfersStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Transfers Section</p>
+<div class="section-title" th:fragment="_quotationTransfers" th:style="${manualConfigurationEntity.transfersStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Transfers Section</p>
 </div>
 
 <div th:fragment="_quotationTransfers2" >
     <table class="services" style="page-break-inside: avoid">
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#A93226;">Pickup</th>
-            <th style="background-color:#A93226;">From</th>
-            <th style="background-color:#A93226;width=15%;">Pickup Details</th>
-            <th style="background-color:#A93226;width:10%;">Date</th>
-            <th style="background-color:#A93226;">Drop</th>
-            <th style="background-color:#A93226;">To</th>
-            <th style="background-color:#A93226;width:15%;">Drop Details</th>
-            <th style="background-color:#A93226;">Type</th>
-            <th style="background-color:#A93226;width:12%">Guests </th>
+            <th style="">Pickup</th>
+            <th style="">From</th>
+            <th style="width=15%;">Pickup Details</th>
+            <th style="width:10%;">Date</th>
+            <th style="">Drop</th>
+            <th style="">To</th>
+            <th style="width:15%;">Drop Details</th>
+            <th style="">Type</th>
+            <th style="width:12%">Guests </th>
         </tr>
 
         <th:block th:each="transfersObj : ${TransfersVOList}" >
@@ -37,7 +37,7 @@
     <span th:if="${manualConfigurationEntity.transfersCancellationPolicyDisplay } ">
         <table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#A93226;">Transfers Remarks</th>
+                <th style="">Transfers Remarks</th>
             </tr>
             <tr style="page-break-inside: avoid">
                 <td style="text-align:left;"><pre>[[${manualConfigurationEntity.transfersCancellationPolicy}]]</pre></td>

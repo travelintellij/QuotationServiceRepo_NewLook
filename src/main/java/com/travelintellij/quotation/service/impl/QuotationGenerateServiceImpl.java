@@ -201,34 +201,52 @@ public class QuotationGenerateServiceImpl  {
         TI_QuotationCostDetails costingDetails = new TI_QuotationCostDetails();
         TI_B2bPartnersDTO b2bPartnersDTO = restTemplate.getForObject(B2B_PARTNER_SERVICE, TI_B2bPartnersDTO.class, String.valueOf(manualConfigurationEntity.getPartnerId()));
         quotationInputDataMap.put("b2bPartnersDTO",b2bPartnersDTO);
-        String logoFileName=b2bPartnersDTO.getPartnerShortName()+".jpg";
-        File logoFile=new File(LOGO_FILE_PATH+"/"+logoFileName);
-        if(!logoFile.exists()) {
-            logoFileName=b2bPartnersDTO.getPartnerShortName()+".png";
-            logoFile=new File(LOGO_FILE_PATH+"/"+logoFileName);
-        }
+        String logoFileName = b2bPartnersDTO.getPartnerShortName() + ".jpg";
         String logFileAbsPath = "";
+        
+        // 1. Try to fetch logo from the Database via B2B Partner Service
         try {
-            if(logoFile.exists()) {
-                byte[] logoBytes = java.nio.file.Files.readAllBytes(logoFile.toPath());
-                String base64Logo = java.util.Base64.getEncoder().encodeToString(logoBytes);
-                String mimeType = logoFileName.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg";
-                logFileAbsPath = "data:" + mimeType + ";base64," + base64Logo;
+            String baseUrl = B2B_PARTNER_SERVICE;
+            if (baseUrl.contains("?")) {
+                baseUrl = baseUrl.substring(0, baseUrl.indexOf("?"));
+            }
+            String logoUrl = baseUrl.replace("getB2bPartnerById", "getPartnerLogo/" + manualConfigurationEntity.getPartnerId());
+            byte[] logoBytes = restTemplate.getForObject(logoUrl, byte[].class);
+            
+            // Validate it's actually an image (rough check: should be at least 100 bytes, not JSON)
+            if (logoBytes != null && logoBytes.length > 100) {
+                // Check if it's not a JSON response by accident
+                String firstFewBytes = new String(logoBytes, 0, Math.min(10, logoBytes.length));
+                if (!firstFewBytes.trim().startsWith("{")) {
+                    String base64 = java.util.Base64.getEncoder().encodeToString(logoBytes);
+                    logFileAbsPath = "data:image/jpeg;base64," + base64;
+                } else {
+                    System.err.println("API returned JSON instead of image bytes!");
+                }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Database logo not found for partner " + manualConfigurationEntity.getPartnerId() + ", falling back to local file. Error: " + e.getMessage());
+        }
+
+        // 2. Fallback to local static resources if DB fetch failed or returned nothing
+        if (logFileAbsPath.isEmpty()) {
+            try {
+                org.springframework.core.io.ClassPathResource imgFile = new org.springframework.core.io.ClassPathResource("static/images/" + logoFileName);
+                if (!imgFile.exists()) {
+                    logoFileName = b2bPartnersDTO.getPartnerShortName() + ".png";
+                    imgFile = new org.springframework.core.io.ClassPathResource("static/images/" + logoFileName);
+                }
+                if (imgFile.exists()) {
+                    byte[] bytes = org.springframework.util.StreamUtils.copyToByteArray(imgFile.getInputStream());
+                    String base64 = java.util.Base64.getEncoder().encodeToString(bytes);
+                    logFileAbsPath = "data:image/" + (logoFileName.endsWith(".png") ? "png" : "jpeg") + ";base64," + base64;
+                }
+            } catch (Exception e) {
+                System.err.println("Error loading logo from resources: " + e.getMessage());
+            }
         }
         quotationInputDataMap.put("LOGO_FILE_ABS_PATH",logFileAbsPath);
         quotationInputDataMap.put("LOGO_FILE_NAME",logoFileName);
-
-        try {
-            org.springframework.core.io.ClassPathResource imgFile = new org.springframework.core.io.ClassPathResource("images/quotation_print_bg.png");
-            byte[] bytes = org.springframework.util.StreamUtils.copyToByteArray(imgFile.getInputStream());
-            String base64Image = java.util.Base64.getEncoder().encodeToString(bytes);
-            quotationInputDataMap.put("bgImageBase64", "data:image/png;base64," + base64Image);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         //System.out.println("Logo File Path is " + LOGO_BASE_PATH+b2bPartnersDTO.getPartnerShortName()+".jpg");
         prepareFlightQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);
         prepareHotelQuotationDetails(manualConfigurationEntity,quotationInputDataMap,costingDetails);

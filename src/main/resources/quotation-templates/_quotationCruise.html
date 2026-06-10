@@ -1,5 +1,5 @@
-<div class="header" th:fragment="_quotationCruise" th:style="${manualConfigurationEntity.cruiseStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Cruise</p>
+<div class="section-title" th:fragment="_quotationCruise" th:style="${manualConfigurationEntity.cruiseStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Cruise</p>
 </div>
 
 
@@ -7,15 +7,15 @@
 <div th:fragment="_quotationCruise2" >
     <table class="services" style="page-break-inside: avoid">
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#4d79ff;">City</th>
-            <th style="background-color:#4d79ff;">Cruise Name</th>
-            <th style="background-color:#4d79ff;">State Room Type</th>
-            <th style="background-color:#4d79ff;">Start Date</th>
-            <th style="background-color:#4d79ff;">End Date </th>
-            <th style="background-color:#4d79ff;">Adults</th>
-            <th style="background-color:#4d79ff;">Children</th>
-            <th style="background-color:#4d79ff;">Children Age</th>
-            <th style="background-color:#4d79ff;">Decks</th>
+            <th style="">City</th>
+            <th style="">Cruise Name</th>
+            <th style="">State Room Type</th>
+            <th style="">Start Date</th>
+            <th style="">End Date </th>
+            <th style="">Adults</th>
+            <th style="">Children</th>
+            <th style="">Children Age</th>
+            <th style="">Decks</th>
         </tr>
 
         <th:block th:each="cruiseObj : ${CruiseVOList}" >
@@ -39,7 +39,7 @@
     <span th:if="${manualConfigurationEntity.cruiseCancellationPolicyDisplay } ">
         <table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#4d79ff;">Cruise Remarks</th>
+                <th style="">Cruise Remarks</th>
             </tr>
             <tr style="page-break-inside: avoid">
                 <td style="text-align:left;"><pre>[[${manualConfigurationEntity.cruiseCancellationPolicy}]]</pre></td>

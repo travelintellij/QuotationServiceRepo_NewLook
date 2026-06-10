@@ -1,62 +1,74 @@
-<div th:fragment="_quotationHeader1" style="background-color: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 15px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+<div class="header" th:fragment="_quotationHeader1">
     <span th:if="${manualConfigurationEntity.logoHeader } and ${manualConfigurationEntity.completeAddress }">
-        <table style="width:100%; border-collapse: collapse;">
+        <table style="width:100%">
             <tr>
-                <td style="width:25%; text-align:center; border-right: 1px solid #e2e8f0; padding-right: 10px; vertical-align: middle;">
-                    <img th:if="${LOGO_FILE_ABS_PATH != ''}" th:src="${LOGO_FILE_ABS_PATH}" style="max-width: 120px; max-height: 120px;" />
-                </td>
-                <td style="width:75%; text-align:center; vertical-align: middle; padding-left: 10px;">
-                    <h1 style="color: #0000ff; font-size: 22pt; margin: 0 0 10px 0; font-family: Arial, sans-serif;">[[${b2bPartnersDTO.partnerName }]]</h1>
-                    <div style="border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; padding: 5px 0; margin-bottom: 5px;">
-                        <span style="font-size: 8pt; color: #1e293b;"><b>Address:</b> [[${b2bPartnersDTO.address}]]</span>
-                    </div>
-                    <div style="padding-top: 5px;">
-                        <span style="font-size: 8pt; color: #1e293b;"><b>Mobile:</b> [[${b2bPartnersDTO.contactNumber}]] &nbsp;&nbsp;|&nbsp;&nbsp; <b>Email:</b> [[${b2bPartnersDTO.email}]]</span>
-                    </div>
+                <!--<td style="width:15%;"><a href="#default" class="logo"><img th:src="@{${'classpath:static/images/'+ LOGO_FILE_NAME}}" width="100" height="100"/></a></td>-->
+                <td style="width:15%;"><a href="#default" class="logo"><img th:src="${LOGO_FILE_ABS_PATH}" width="100" height="100" /></a></td>
+
+                <td style="text-align:center;width:60%;"><a class="active" href="#home">[[${b2bPartnersDTO.partnerName }]]</a></td>
+                <td style="text-align:left;width:25%;">
+                    <table align="right">
+                        <tr>
+                            <th style="width:30%;text-align:left;font-size: 7pt;">Address:</th><td style="text-align:left;font-size: 7pt;">[[${b2bPartnersDTO.address}]]</td>
+                        </tr>
+                        <tr>
+                            <th style="width:30%;text-align:left;font-size: 7pt;">Contact:</th><td style="text-align:left;font-size: 7pt;">[[${b2bPartnersDTO.contactNumber}]]</td>
+                        </tr>
+                        <tr>
+                            <th style="width:30%;text-align:left;font-size: 7pt;">Email:</th><td style="text-align:left;font-size: 7pt;">[[${b2bPartnersDTO.email}]]</td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>
-    </span>
+        </span>
 
     <span th:if="${manualConfigurationEntity.logoHeader } and ${! manualConfigurationEntity.completeAddress }">
-        <table style="width:100%; border-collapse: collapse;">
+        <table style="width:100%">
             <tr>
-                <td style="width:25%; text-align:center; border-right: 1px solid #e2e8f0; padding-right: 10px; vertical-align: middle;">
-                    <img th:if="${LOGO_FILE_ABS_PATH != ''}" th:src="${LOGO_FILE_ABS_PATH}" style="max-width: 120px; max-height: 120px;" />
-                </td>
-                <td style="width:75%; text-align:center; vertical-align: middle; padding-left: 10px;">
-                    <h1 style="color: #0000ff; font-size: 24pt; margin: 0; font-family: Arial, sans-serif;">[[${b2bPartnersDTO.partnerName }]]</h1>
-                </td>
+                <!--<td style="width:15%;" ><a href="#default" class="logo"><img th:src="@{${'classpath:static/images/'+ LOGO_FILE_NAME}}" width="100" height="100"/></a></td>-->
+                <td style="width:15%;"><a href="#default" class="logo"><img th:src="${LOGO_FILE_ABS_PATH}" width="100" height="100" /></a></td>
+                <td style="text-align:center;width:85%;"><a class="active" href="#home">[[${b2bPartnersDTO.partnerName }]]</a></td>
             </tr>
         </table>
-    </span>
+        </span>
 
     <span th:if="${!manualConfigurationEntity.logoHeader } and ${manualConfigurationEntity.completeAddress }">
-        <table style="width:100%; border-collapse: collapse;">
+        <table style="width:100%">
             <tr>
-                <td style="width:100%; text-align:center; vertical-align: middle;">
-                    <h1 style="color: #0000ff; font-size: 24pt; margin: 0 0 10px 0; font-family: Arial, sans-serif;">[[${b2bPartnersDTO.partnerName }]]</h1>
-                    <div style="border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; padding: 5px 0; margin-bottom: 5px;">
-                        <span style="font-size: 8pt; color: #1e293b;"><b>Address:</b> [[${b2bPartnersDTO.address}]]</span>
-                    </div>
-                    <div style="padding-top: 5px;">
-                        <span style="font-size: 8pt; color: #1e293b;"><b>Mobile:</b> [[${b2bPartnersDTO.contactNumber}]] &nbsp;&nbsp;|&nbsp;&nbsp; <b>Email:</b> [[${b2bPartnersDTO.email}]]</span>
-                    </div>
+                <td style="text-align:center;width:60%;"><a class="active" href="#home">[[${b2bPartnersDTO.partnerName }]]</a></td>
+                <td style="text-align:left;width:40%;">
+                    <table align="right">
+                        <tr>
+                            <th style="width:30%;text-align:left;font-size: 7pt;">Address:</th><td style="text-align:left;font-size: 7pt;">[[${b2bPartnersDTO.address}]]</td>
+                        </tr>
+                        <tr>
+                            <th style="width:30%;text-align:left;font-size: 7pt;">Contact:</th><td style="text-align:left;font-size: 7pt;">[[${b2bPartnersDTO.contactNumber}]]</td>
+                        </tr>
+                        <tr>
+                            <th style="width:30%;text-align:left;font-size: 7pt;">Email:</th><td style="text-align:left;font-size: 7pt;">[[${b2bPartnersDTO.email}]]</td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>
-    </span>
-
+        </span>
     <span th:if="${!manualConfigurationEntity.logoHeader } and ${!manualConfigurationEntity.completeAddress }">
-        <table style="width:100%; border-collapse: collapse;">
+        <table style="width:100%">
             <tr>
-                <td style="text-align:center; vertical-align: middle;">
-                    <h1 style="color: #0000ff; font-size: 26pt; margin: 0; font-family: Arial, sans-serif;">[[${b2bPartnersDTO.partnerName }]]</h1>
-                </td>
+                <td style="text-align:center;"><a class="active" href="#home">[[${b2bPartnersDTO.partnerName }]]</a></td>
             </tr>
         </table>
-    </span>
+        </span>
 </div>
-<div th:fragment="_quotationHeader2" style="margin-bottom: 15px;">
-    <p style="font-size: 7.5pt; color: #1e293b; text-align: center; font-style: italic; margin-bottom: 15px; padding: 0 10px;">Please make a note that all details are tentative till the time we confirm voucher and give you the final confirmation. Price is dynamic and may change at the time of booking. Our pricing is fixed and non negotiable.</p>
+<div th:fragment="_quotationHeader2">
+<hr/>
+<table>
+    <tr>
+        <td style="font-size: 7pt;"><i>Please make a note that all details are tentative till the time we confirm voucher and give you the final confirmation. Price is dynamic and may change at the time of booking. Our pricing is fixed and non negotiable.</i></td>
+    </tr>
+</table>
+<hr/>
+    <br/>
+    <h1 style="text-align:center">Quotation</h1>
 </div>

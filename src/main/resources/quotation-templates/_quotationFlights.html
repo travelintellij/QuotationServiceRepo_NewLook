@@ -1,5 +1,5 @@
-<div class="header" th:fragment="_quotationFlights" th:style="${manualConfigurationEntity.flightStarNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Flights</p>
+<div class="section-title" th:fragment="_quotationFlights" th:style="${manualConfigurationEntity.flightStarNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Flights</p>
 </div>
 
 <div th:fragment="_quotationFlights2" >
@@ -19,10 +19,10 @@
         <td>[[${flightObj.airlineName}]] <br/>
             <p style="font-size:6pt;color:#A9A9A9;">[[${flightObj.flightNumber}]]</p></td>
         <td>[[${flightObj.originCity}]] <br/>
-            <p th:text="${#temporals.format(flightObj.departureDate, 'dd-MM-yyyy HH:mm')}"></p>
+            <p style="white-space: nowrap;" th:text="${#temporals.format(flightObj.departureDate, 'dd-MM-yyyy HH:mm')}"></p>
         </td>
         <td>[[${flightObj.destinationCity}]]<br/>
-            <p th:text="${#temporals.format(flightObj.arrivalDate, 'dd-MM-yyyy HH:mm')}"></p>
+            <p style="white-space: nowrap;" th:text="${#temporals.format(flightObj.arrivalDate, 'dd-MM-yyyy HH:mm')}"></p>
         </td>
         <td th:text="${flightObj.adultCount}"> </td>
         <td th:text="${flightObj.childCount}"> </td>
@@ -33,8 +33,8 @@
         <span th:if="${manualConfigurationEntity.flightShowConnections and (#lists.size(flightObj.flightStopsQuotationsVoList) >0)} ">
         <tr style="page-break-inside: avoid">
              <td colspan="8">
-            <table style="width:80%;background-color:cream;" align="center">
-                <caption>Flight Stop Details</caption>
+            <div class="section-title"><p>Flight Stop Details</p></div>
+            <table style="width:100%;" align="center">
                  <tr style="page-break-inside: avoid">
                     <th style="width:20%;">Flight</th>
                     <th>Departure</th>
@@ -49,10 +49,10 @@
                     <td>[[${flightStopObj.airlineName}]] <br/>
                         <p style="font-size:6pt;color:#A9A9A9;">[[${flightStopObj.flightNumber}]]</p></td>
                     <td>[[${flightStopObj.originCity}]] <br/>
-                        <p th:text="${#temporals.format(flightStopObj.departureDate, 'dd-MM-yyyy HH:mm')}"></p>
+                        <p style="white-space: nowrap;" th:text="${#temporals.format(flightStopObj.departureDate, 'dd-MM-yyyy HH:mm')}"></p>
                     </td>
                     <td>[[${flightStopObj.destinationCity}]]<br/>
-                        <p th:text="${#temporals.format(flightStopObj.arrivalDate, 'dd-MM-yyyy HH:mm')}"></p>
+                        <p style="white-space: nowrap;" th:text="${#temporals.format(flightStopObj.arrivalDate, 'dd-MM-yyyy HH:mm')}"></p>
                     </td>
                     <td th:text="${flightStopObj.adultCount}"> </td>
                     <td th:text="${flightStopObj.childCount}"> </td>
@@ -80,5 +80,3 @@
     </span>
 <hr/>
 </div>
-
-

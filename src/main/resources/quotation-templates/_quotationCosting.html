@@ -1,6 +1,6 @@
-<div class="header" th:fragment="_quotationCosting" th:style="${manualConfigurationEntity.costingStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+<div class="section-title" th:fragment="_quotationCosting" th:style="${manualConfigurationEntity.costingStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
     <hr/>
-    <p align="center">Costing Section</p>
+    <p>Costing Section</p>
     <hr/>
 </div>
 
@@ -19,8 +19,8 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.flightSeperateCostDisplay} and ${manualConfigurationEntity.flightGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Flight Cost</caption>
+        <div class="section-title"><p>Flight Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
                 <th>Flight Cost </th><td th:text="'INR ' + ${COSTING_OBJ.flightTotalCost} "> </td>
                 <th>Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.flightTotalMarkup*100/118} "> </td>
@@ -35,11 +35,11 @@
 
     <span th:if="${manualConfigurationEntity.hotelSeperateCostDisplay} and ${not manualConfigurationEntity.hotelGstBreakup}">
     <span th:if="${#maps.size(COSTING_OBJ.hotelOptionsWithCostAndMarkup)} > 1">
-    <table class="services" style="page-break-inside: avoid">
-        <caption>Hotel Cost</caption>
+    <div class="section-title"><p>Hotel Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
         <th:block th:each="costObj : ${COSTING_OBJ.hotelOptionsWithCostAndMarkup}" >
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#47C3FD;width:50%;">Hotel Cost Option [[${costObj.key}]]</th>
+            <th style="width:50%;">Hotel Cost Option [[${costObj.key}]]</th>
             <td th:text="'INR ' + ${costObj.value } "> </td>
         </tr>
     </th:block>
@@ -47,11 +47,11 @@
         <br/><br/>
   </span>
     <span th:if="${#maps.size(COSTING_OBJ.hotelOptionsWithCostAndMarkup)} <= 1">
-    <table class="services" style="page-break-inside: avoid">
-        <caption>Hotel Cost</caption>
+    <div class="section-title"><p>Hotel Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
         <th:block th:each="costObj : ${COSTING_OBJ.hotelOptionsWithCostAndMarkup}" >
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#47C3FD;width:50%;">Hotel Cost </th>
+            <th style="width:50%;">Hotel Cost </th>
             <td th:text="'INR ' + ${costObj.value} "> </td>
         </tr>
     </th:block>
@@ -62,16 +62,16 @@
 
   <span th:if="${manualConfigurationEntity.hotelSeperateCostDisplay} and ${manualConfigurationEntity.hotelGstBreakup}">
   <span th:if="${#maps.size(COSTING_OBJ.hotelOptionsWithCostAndMarkup)} > 1">
-   <table class="services" style="page-break-inside: avoid">
-        <caption>Hotel Cost</caption>
+   <div class="section-title"><p>Hotel Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
         <th:block th:each="costObj : ${COSTING_OBJ.hotelOptionsWithCostAndMarkup}" >
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#47C3FD;">Hotel Cost Option [[${costObj.key}]] </th><td th:text="'INR ' + ${costObj.value - COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key)} "> </td>
-            <th style="background-color:#47C3FD;">Taxable Value</th> <td th:text="'INR ' + ${COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key)*100/118} "> </td>
-            <th style="background-color:#47C3FD;">Tax Amount</th> <td th:text="'INR ' + ${COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key) - COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key)*100/118} "> </td>
+            <th style="">Hotel Cost Option [[${costObj.key}]] </th><td th:text="'INR ' + ${costObj.value - COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key)} "> </td>
+            <th style="">Taxable Value</th> <td th:text="'INR ' + ${COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key)*100/118} "> </td>
+            <th style="">Tax Amount</th> <td th:text="'INR ' + ${COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key) - COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key)*100/118} "> </td>
         </tr>
         <tr>
-            <th style="background-color:#47C3FD;" colspan="3">Total Hotel Cost Option [[${costObj.key}]] </th><td colspan="3" th:text="'INR ' + ${costObj.value} "> </td>
+            <th style="" colspan="3">Total Hotel Cost Option [[${costObj.key}]] </th><td colspan="3" th:text="'INR ' + ${costObj.value} "> </td>
         </tr>
             <tr><td colspan="6">&nbsp;</td></tr>
     </th:block>
@@ -79,8 +79,8 @@
     <br/><br/>
   </span>
     <span th:if="${#maps.size(COSTING_OBJ.hotelOptionsWithCostAndMarkup)} <= 1">
-    <table class="services" style="page-break-inside: avoid">
-        <caption>Hotel Cost</caption>
+    <div class="section-title"><p>Hotel Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
         <th:block th:each="costObj : ${COSTING_OBJ.hotelOptionsWithCostAndMarkup}" >
         <tr style="page-break-inside: avoid">
             <th >Hotel Cost </th><td th:text="'INR ' + ${costObj.value - COSTING_OBJ.hotelOptionsWithMarkup.get(costObj.key)} "> </td>
@@ -98,10 +98,10 @@
   </span>
 
     <span th:if="${manualConfigurationEntity.cruiseSeperateCostDisplay} and ${not manualConfigurationEntity.cruiseGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Cruise Cost</caption>
+        <div class="section-title"><p>Cruise Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#4d79ff;width:50%;">Cruise Cost </th>
+                <th style="width:50%;">Cruise Cost </th>
                 <td th:text="'INR ' + ${COSTING_OBJ.cruiseTotalCost + COSTING_OBJ.cruiseTotalMarkup} "> </td>
             </tr>
         </table>
@@ -109,15 +109,15 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.cruiseSeperateCostDisplay} and ${manualConfigurationEntity.cruiseGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Cruise Cost</caption>
+        <div class="section-title"><p>Cruise Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#4d79ff;">Cruise Cost </th><td th:text="'INR ' + ${COSTING_OBJ.cruiseTotalCost} "> </td>
-                <th style="background-color:#4d79ff;">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.cruiseTotalMarkup*100/118} "> </td>
-                <th style="background-color:#4d79ff;">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.cruiseTotalMarkup - ( COSTING_OBJ.cruiseTotalMarkup*100/118)} "> </td>
+                <th style="">Cruise Cost </th><td th:text="'INR ' + ${COSTING_OBJ.cruiseTotalCost} "> </td>
+                <th style="">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.cruiseTotalMarkup*100/118} "> </td>
+                <th style="">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.cruiseTotalMarkup - ( COSTING_OBJ.cruiseTotalMarkup*100/118)} "> </td>
             </tr>
             <tr>
-                <th style="background-color:#4d79ff;" colspan="3">Total Cruise Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.cruiseTotalCost + COSTING_OBJ.cruiseTotalMarkup} "> </td>
+                <th style="" colspan="3">Total Cruise Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.cruiseTotalCost + COSTING_OBJ.cruiseTotalMarkup} "> </td>
             </tr>
         </table>
         <br/><br/>
@@ -125,10 +125,10 @@
 
 
     <span th:if="${manualConfigurationEntity.sightSeeingSeperateCostDisplay} and ${not manualConfigurationEntity.sightSeeingGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Sight Seeing Cost</caption>
+        <div class="section-title"><p>Sight Seeing Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#1C32D4;width:50%;">Sight Seeing Cost </th>
+                <th style="width:50%;">Sight Seeing Cost </th>
                 <td th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalCost + COSTING_OBJ.sightSeeingTotalMarkup} "> </td>
             </tr>
         </table>
@@ -136,15 +136,15 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.sightSeeingSeperateCostDisplay} and ${manualConfigurationEntity.sightSeeingGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Sight Seeing Cost</caption>
+        <div class="section-title"><p>Sight Seeing Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#1C32D4;">Sight Seeing Cost </th><td th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalCost} "> </td>
-                <th style="background-color:#1C32D4;">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalMarkup*100/118} "> </td>
-                <th style="background-color:#1C32D4;">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalMarkup - ( COSTING_OBJ.sightSeeingTotalMarkup*100/118)} "> </td>
+                <th style="">Sight Seeing Cost </th><td th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalCost} "> </td>
+                <th style="">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalMarkup*100/118} "> </td>
+                <th style="">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalMarkup - ( COSTING_OBJ.sightSeeingTotalMarkup*100/118)} "> </td>
             </tr>
             <tr>
-                <th style="background-color:#1C32D4;" colspan="3">Total Sight Seeing Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalCost + COSTING_OBJ.sightSeeingTotalMarkup} "> </td>
+                <th style="" colspan="3">Total Sight Seeing Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.sightSeeingTotalCost + COSTING_OBJ.sightSeeingTotalMarkup} "> </td>
             </tr>
         </table>
         <br/><br/>
@@ -155,10 +155,10 @@
 
 
     <span th:if="${manualConfigurationEntity.transfersSeperateCostDisplay} and ${not manualConfigurationEntity.transfersGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Transfers Cost</caption>
+        <div class="section-title"><p>Transfers Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#A93226;width:50%;">Transfers Cost </th>
+                <th style="width:50%;">Transfers Cost </th>
                 <td th:text="'INR ' + ${COSTING_OBJ.transfersTotalCost + COSTING_OBJ.transfersTotalMarkup} "> </td>
             </tr>
         </table>
@@ -166,15 +166,15 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.transfersSeperateCostDisplay} and ${manualConfigurationEntity.transfersGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Transfers Cost</caption>
+        <div class="section-title"><p>Transfers Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#A93226;">Transfers Cost </th><td th:text="'INR ' + ${COSTING_OBJ.transfersTotalCost} "> </td>
-                <th style="background-color:#A93226;">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.transfersTotalMarkup*100/118} "> </td>
-                <th style="background-color:#A93226;">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.transfersTotalMarkup - ( COSTING_OBJ.transfersTotalMarkup*100/118)} "> </td>
+                <th style="">Transfers Cost </th><td th:text="'INR ' + ${COSTING_OBJ.transfersTotalCost} "> </td>
+                <th style="">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.transfersTotalMarkup*100/118} "> </td>
+                <th style="">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.transfersTotalMarkup - ( COSTING_OBJ.transfersTotalMarkup*100/118)} "> </td>
             </tr>
             <tr>
-                <th style="background-color:#A93226;" colspan="3">Total Transfers Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.transfersTotalCost + COSTING_OBJ.transfersTotalMarkup} "> </td>
+                <th style="" colspan="3">Total Transfers Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.transfersTotalCost + COSTING_OBJ.transfersTotalMarkup} "> </td>
             </tr>
         </table>
         <br/><br/>
@@ -187,10 +187,10 @@
 
 
     <span th:if="${manualConfigurationEntity.packageSeperateCostDisplay} and ${not manualConfigurationEntity.packageGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Package Cost</caption>
+        <div class="section-title"><p>Package Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#45B39D;width:50%;">Package Cost </th>
+                <th style="width:50%;">Package Cost </th>
                 <td th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalCost + COSTING_OBJ.tourPackageTotalMarkup} "> </td>
             </tr>
         </table>
@@ -198,25 +198,25 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.packageSeperateCostDisplay} and ${manualConfigurationEntity.packageGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Package Cost</caption>
+        <div class="section-title"><p>Package Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#45B39D;">Package Cost </th><td th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalCost} "> </td>
-                <th style="background-color:#45B39D;">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalMarkup*100/118} "> </td>
-                <th style="background-color:#45B39D;">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalMarkup - ( COSTING_OBJ.tourPackageTotalMarkup*100/118)} "> </td>
+                <th style="">Package Cost </th><td th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalCost} "> </td>
+                <th style="">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalMarkup*100/118} "> </td>
+                <th style="">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalMarkup - ( COSTING_OBJ.tourPackageTotalMarkup*100/118)} "> </td>
             </tr>
             <tr>
-                <th style="background-color:#45B39D;" colspan="3">Package Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalCost + COSTING_OBJ.tourPackageTotalMarkup} "> </td>
+                <th style="" colspan="3">Package Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.tourPackageTotalCost + COSTING_OBJ.tourPackageTotalMarkup} "> </td>
             </tr>
         </table>
         <br/><br/>
     </span>
 
     <span th:if="${manualConfigurationEntity.visaSeperateCostDisplay} and ${not manualConfigurationEntity.visaGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Visa Cost</caption>
+        <div class="section-title"><p>Visa Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#921A0E;width:50%;">Visa Cost </th>
+                <th style="width:50%;">Visa Cost </th>
                 <td th:text="'INR ' + ${COSTING_OBJ.visaTotalCost + COSTING_OBJ.visaTotalMarkup} "> </td>
             </tr>
         </table>
@@ -224,15 +224,15 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.visaSeperateCostDisplay} and ${manualConfigurationEntity.visaGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Visa Cost</caption>
+        <div class="section-title"><p>Visa Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#921A0E;">Visa Cost </th><td th:text="'INR ' + ${COSTING_OBJ.visaTotalCost} "> </td>
-                <th style="background-color:#921A0E;">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.visaTotalMarkup*100/118} "> </td>
-                <th style="background-color:#921A0E;">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.visaTotalMarkup - ( COSTING_OBJ.visaTotalMarkup*100/118)} "> </td>
+                <th style="">Visa Cost </th><td th:text="'INR ' + ${COSTING_OBJ.visaTotalCost} "> </td>
+                <th style="">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.visaTotalMarkup*100/118} "> </td>
+                <th style="">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.visaTotalMarkup - ( COSTING_OBJ.visaTotalMarkup*100/118)} "> </td>
             </tr>
             <tr>
-                <th style="background-color:#921A0E;" colspan="3">Visa Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.visaTotalCost + COSTING_OBJ.visaTotalMarkup} "> </td>
+                <th style="" colspan="3">Visa Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.visaTotalCost + COSTING_OBJ.visaTotalMarkup} "> </td>
             </tr>
         </table>
         <br/><br/>
@@ -240,10 +240,10 @@
 
 
     <span th:if="${manualConfigurationEntity.insuranceSeperateCostDisplay} and ${not manualConfigurationEntity.insuranceGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Insurance Cost</caption>
+        <div class="section-title"><p>Insurance Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#1C7DD4;width:50%;">Insurance Cost </th>
+                <th style="width:50%;">Insurance Cost </th>
                 <td th:text="'INR ' + ${COSTING_OBJ.insuranceTotalCost + COSTING_OBJ.insuranceTotalMarkup} "> </td>
             </tr>
         </table>
@@ -251,25 +251,25 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.insuranceSeperateCostDisplay} and ${manualConfigurationEntity.insuranceGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Insurance Cost</caption>
+        <div class="section-title"><p>Insurance Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#1C7DD4;">Insurance Cost </th><td th:text="'INR ' + ${COSTING_OBJ.insuranceTotalCost} "> </td>
-                <th style="background-color:#1C7DD4;">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.insuranceTotalMarkup*100/118} "> </td>
-                <th style="background-color:#1C7DD4;">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.insuranceTotalMarkup - ( COSTING_OBJ.insuranceTotalMarkup*100/118)} "> </td>
+                <th style="">Insurance Cost </th><td th:text="'INR ' + ${COSTING_OBJ.insuranceTotalCost} "> </td>
+                <th style="">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.insuranceTotalMarkup*100/118} "> </td>
+                <th style="">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.insuranceTotalMarkup - ( COSTING_OBJ.insuranceTotalMarkup*100/118)} "> </td>
             </tr>
             <tr>
-                <th style="background-color:#1C7DD4;" colspan="3">Insurance Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.insuranceTotalCost + COSTING_OBJ.insuranceTotalMarkup} "> </td>
+                <th style="" colspan="3">Insurance Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.insuranceTotalCost + COSTING_OBJ.insuranceTotalMarkup} "> </td>
             </tr>
         </table>
         <br/><br/>
     </span>
 
     <span th:if="${manualConfigurationEntity.otherSeperateCostDisplay} and ${not manualConfigurationEntity.otherGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Other Cost</caption>
+        <div class="section-title"><p>Other Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#566573;width:50%;">Other Cost </th>
+                <th style="width:50%;">Other Cost </th>
                 <td th:text="'INR ' + ${COSTING_OBJ.otherTotalCost + COSTING_OBJ.otherTotalMarkup} "> </td>
             </tr>
         </table>
@@ -277,15 +277,15 @@
     </span>
 
     <span th:if="${manualConfigurationEntity.otherSeperateCostDisplay} and ${manualConfigurationEntity.otherGstBreakup}">
-        <table class="services" style="page-break-inside: avoid">
-            <caption>Other Cost</caption>
+        <div class="section-title"><p>Other Cost</p></div>
+<table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#566573;">Other Cost </th><td th:text="'INR ' + ${COSTING_OBJ.otherTotalCost} "> </td>
-                <th style="background-color:#566573;">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.otherTotalMarkup*100/118} "> </td>
-                <th style="background-color:#566573;">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.otherTotalMarkup - ( COSTING_OBJ.otherTotalMarkup*100/118)} "> </td>
+                <th style="">Other Cost </th><td th:text="'INR ' + ${COSTING_OBJ.otherTotalCost} "> </td>
+                <th style="">Taxable Value </th><td th:text="'INR ' + ${COSTING_OBJ.otherTotalMarkup*100/118} "> </td>
+                <th style="">Tax Amount </th><td th:text="'INR ' + ${COSTING_OBJ.otherTotalMarkup - ( COSTING_OBJ.otherTotalMarkup*100/118)} "> </td>
             </tr>
             <tr>
-                <th style="background-color:#566573;" colspan="3">Other Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.otherTotalCost + COSTING_OBJ.otherTotalMarkup} "> </td>
+                <th style="" colspan="3">Other Cost </th><td colspan="3" th:text="'INR ' + ${COSTING_OBJ.otherTotalCost + COSTING_OBJ.otherTotalMarkup} "> </td>
             </tr>
         </table>
         <br/><br/>

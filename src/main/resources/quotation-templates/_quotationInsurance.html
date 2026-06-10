@@ -1,19 +1,19 @@
-<div class="header" th:fragment="_quotationInsurance" th:style="${manualConfigurationEntity.insuranceStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
-    <p align="center">Insurance Section</p>
+<div class="section-title" th:fragment="_quotationInsurance" th:style="${manualConfigurationEntity.insuranceStartNewPage  ? 'padding:0px;page-break-inside: avoid;page-break-before:always;' : 'padding:0px;page-break-inside: avoid'} ">
+    <p>Insurance Section</p>
 </div>
 
 <div th:fragment="_quotationInsurance2" >
     <table class="services" style="page-break-inside: avoid">
         <tr style="page-break-inside: avoid">
-            <th style="background-color:#1C7DD4;">Country</th>
-            <th style="background-color:#1C7DD4;">Insurance Name</th>
-            <th style="background-color:#1C7DD4;">Start Date</th>
-            <th style="background-color:#1C7DD4;">End Date</th>
-            <th style="background-color:#1C7DD4;">Provider</th>
-            <th style="background-color:#1C7DD4;">Coverage</th>
-            <th style="background-color:#1C7DD4;">Adults</th>
-            <th style="background-color:#1C7DD4;">Children</th>
-            <th style="background-color:#1C7DD4;">Infants</th>
+            <th style="">Country</th>
+            <th style="">Insurance Name</th>
+            <th style="">Start Date</th>
+            <th style="">End Date</th>
+            <th style="">Provider</th>
+            <th style="">Coverage</th>
+            <th style="">Adults</th>
+            <th style="">Children</th>
+            <th style="">Infants</th>
         </tr>
 
         <th:block th:each="insuranceObj : ${InsuranceVOList}" >
@@ -37,7 +37,7 @@
     <span th:if="${manualConfigurationEntity.insuranceCancellationPolicyDisplay } ">
         <table class="services" style="page-break-inside: avoid">
             <tr style="page-break-inside: avoid">
-                <th style="background-color:#1C7DD4;">Insurance Remarks</th>
+                <th style="">Insurance Remarks</th>
             </tr>
             <tr style="page-break-inside: avoid">
                 <td style="text-align:left;"><pre>[[${manualConfigurationEntity.insuranceCancellationPolicy}]]</pre></td>
