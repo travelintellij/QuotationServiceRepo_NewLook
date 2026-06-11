@@ -94,6 +94,44 @@ public class EmailServiceImpl {
 	    }
 	 */
 	    
+	    private String buildHtmlQuotationEmail(String rawMessage) {
+	    	if (rawMessage == null) {
+	    		rawMessage = "";
+	    	}
+	    	String formattedMessage = rawMessage.replace("\n", "<br/>");
+	    	return "<!DOCTYPE html>"
+	    			+ "<html>"
+	    			+ "<head>"
+	    			+ "  <meta charset='utf-8'>"
+	    			+ "  <style>"
+	    			+ "    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #e0f2fe; margin: 0; padding: 20px; color: #1e293b; }"
+	    			+ "    .email-container { max-width: 700px; margin: 0 auto; background: #f8fafc; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 18px rgba(3, 105, 161, 0.1); border: 2px solid #0369a1; }"
+	    			+ "    .header { background-color: #f8fafc; padding: 30px; text-align: center; }"
+	    			+ "    .header h1 { display: inline-block; background-color: #e0f2fe; color: #0369a1; margin: 0; padding: 8px 20px; border-radius: 6px; font-size: 22px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }"
+	    			+ "    .content { padding: 40px 30px; line-height: 1.6; font-size: 16px; font-weight: 500; color: #1e293b; }"
+	    			+ "    .content p { margin: 0 0 16px 0; }"
+	    			+ "    .footer { background-color: #f0f9ff; padding: 30px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #bae6fd; }"
+	    			+ "    .footer a { color: #0369a1; text-decoration: none; font-weight: bold; }"
+	    			+ "  </style>"
+	    			+ "</head>"
+	    			+ "<body>"
+	    			+ "  <div class='email-container'>"
+	    			+ "    <div class='header'>"
+	    			+ "      <h1>UdanChoo Travel</h1>"
+	    			+ "    </div>"
+	    			+ "    <div class='content'>"
+	    			+ "      " + formattedMessage
+	    			+ "    </div>"
+	    			+ "    <div class='footer'>"
+	    			+ "      <p>Thank you for choosing UdanChoo. We are committed to making your journey unforgettable.</p>"
+	    			+ "      <p><a href='https://www.facebook.com/UdanChoo.travel/'><strong>Facebook</strong></a> | <a href='https://www.udanchoo.com'><strong>Website</strong></a></p>"
+	    			+ "      <p style='margin-top: 10px; font-size: 10px;'>Copyright &copy; 2026 UdanChoo.com. All rights reserved.</p>"
+	    			+ "    </div>"
+	    			+ "  </div>"
+	    			+ "</body>"
+	    			+ "</html>";
+	    }
+
 	    public void sendMailWithAttachment(EmailMessageVO emailMessageVo, ArrayList filtToAttach) throws MailException
 	    {
 	    	MimeMessagePreparator preparator = new MimeMessagePreparator() 
@@ -114,7 +152,6 @@ public class EmailServiceImpl {
 	            	mimeMessage.setRecipients(Message.RecipientType.CC, emailCcList);
 	            	mimeMessage.setFrom(new InternetAddress(emailMessageVo.getEmailMessageFrom()));
 	                mimeMessage.setSubject(emailMessageVo.getEmailSubject());
-	                mimeMessage.setText(emailMessageVo.getEmailMessage());
 	                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 	                //attachFiles(filtToAttach,helper );
 	                
@@ -123,7 +160,9 @@ public class EmailServiceImpl {
 	                	FileSystemResource fr = new FileSystemResource(file);
 	    				helper.addAttachment(file.getName(), fr);
 	    			}
-	                helper.setText(emailMessageVo.getEmailMessage());
+	                String plainText = emailMessageVo.getEmailMessage();
+	                String htmlText = buildHtmlQuotationEmail(plainText);
+	                helper.setText(plainText, htmlText);
 	            }
 	        };
             mailSender.send(preparator);
